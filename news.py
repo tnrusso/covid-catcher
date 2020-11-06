@@ -11,7 +11,6 @@ def get_news(amtArticles, since = YESTERDAY.strftime("%yyyy-%mm-%dd"), query = '
     if amtArticles < 1: 
         return {'Error':'Amount of articles must be > 0'}
     
-    
     url = ('http://newsapi.org/v2/top-headlines?'
             'sources='+SOURCES+'&'
             'q='+query+'&'
@@ -21,12 +20,13 @@ def get_news(amtArticles, since = YESTERDAY.strftime("%yyyy-%mm-%dd"), query = '
     response=requests.get(url)
     data = response.json()
     
+    articles = []
+    
     if data['status'] == 'ok':
         
         if data['totalResults'] < amtArticles:
             amtArticles=data['totalResults']
             
-        
         for i in range(0,amtArticles):
             art = data['articles'][i]
             source = art['source']['name']
@@ -37,20 +37,20 @@ def get_news(amtArticles, since = YESTERDAY.strftime("%yyyy-%mm-%dd"), query = '
             image = art['urlToImage']
             pubDate = art['publishedAt']
             
-            print(link)
+            articles.append(Article(title, author, desc, source, image, pubDate, link))
             
+        return articles
         
-        
-    
     else:
         return {'Error': 'API call failed, status= ' + data['status'] }
     
 
-
-
-'''
 class Article:
-    
-    def __init__(title, author, description, source, image, publishDate, url):
-'''
-get_news(10)
+    def __init__(self, title, author, description, source, image, publishDate, url):
+        self.title = title
+        self.author = author
+        self.description = description
+        self.source = source
+        self.image = image
+        self.publishDate = publishDate
+        self.url = url
