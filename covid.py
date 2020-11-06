@@ -21,7 +21,7 @@ def get_covid_stats_by_state(state):
     data = response.json()
     
     cases = data['cases']
-    todaysCases = data['todaysCases']
+    todaysCases = data['todayCases']
     deaths = data['deaths']
     todayDeaths = data['todayDeaths']
     recovered = data['recovered']
@@ -59,3 +59,26 @@ class StateStats:
 
         self.tests=tests
         self.testsPerPerMillion=testsPerPerMillion
+        
+'''
+county = get_covid_stats_by_county("New Jersey","Passaic")
+print(county.state)
+print(county.county)
+print(county.updatedAt)
+print(county.confirmed)
+print(county.deaths)
+print(county.recovered)
+
+state = get_covid_stats_by_state("New Jersey")
+print(state.state)
+print(state.cases)
+print(state.todaysCases)
+print(state.activeCases)
+print(state.casesPerMillion)
+print(state.deaths)
+print(state.todayDeaths)
+print(state.deathsPerMillion)
+print(state.recovered)
+print(state.tests)
+print(state.testsPerPerMillion)
+'''
