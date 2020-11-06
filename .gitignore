@@ -1,3 +1,5 @@
 node_modules/
 static/script.js
 package-lock.json
+__pycache__/
+sql.env
