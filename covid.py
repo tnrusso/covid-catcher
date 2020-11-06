@@ -15,7 +15,7 @@ def get_covid_stats_by_county(state,county):
             
             return CountyStats(state,county,updatedAt,confirmed,deaths,recovered)
             
-def get_covid_stats_by_state(state,county):
+def get_covid_stats_by_state(state):
     url = ('https://corona.lmao.ninja/v2/states/'+ state +'?yesterday=')
     response=requests.get(url)
     data = response.json()
