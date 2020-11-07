@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Socket } from './Socket';
 
 export function Stats(){
-  const [cases, setCases] = useState(0); 
-  const [deaths, setDeaths] = useState(0); 
-  const [recovered, setRecovered] = useState(0); 
+  const [cases, setCases] = useState([]); 
+  const [deaths, setDeaths] = useState([]); 
+  const [recovered, setRecovered] = useState([]); 
     
     
   function getStats(){

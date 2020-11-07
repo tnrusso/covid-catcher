@@ -26,7 +26,7 @@ export function GoogleButton() {
   return (
     <div>
     <GoogleLogin
-      clientId="647618540134-q6v0kfdeo8od51bhlmv8l4uere8oemi6.apps.googleusercontent.com"
+      clientId="384828659329-rnk23bh8ej7chi3470j140m46g9eua32.apps.googleusercontent.com"
       buttonText="Login"
       onSuccess={handleSuccess}
       onFailure={handleFailure}
