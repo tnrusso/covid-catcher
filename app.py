@@ -9,6 +9,8 @@ import requests
 from dotenv import load_dotenv
 import models
 from covid import get_covid_stats_by_state
+from faq import get_all_questions
+from faq import FAQ
 import news
 
 app = flask.Flask(__name__)
@@ -71,6 +73,14 @@ def push_stat_data():
     print("CASES DEATHS AND RECOVERED: ",case, death, rec)
     socketio.emit(STATISTICS, {'cases' : case, 'deaths' : death, 'recovered' : rec})
 
+def faqList():
+    q = get_all_questions()
+    for x in q:
+        print(x.question)
+        print(x.answer)
+        print(x.answer_html)
+        print(x.source)
+    
     
 def checkLogin(NEWUSER):
     x = 1
@@ -82,6 +92,7 @@ def index():
     """loads page"""
     emit_all_users(USERS_UPDATED_CHANNEL)
     push_stat_data()
+    faqList()
     return flask.render_template("index.html")
 
 
