@@ -1,0 +1,44 @@
+body {
+    background-color: #f4f4f2;
+}
+
+.covid-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+.articles-ul {
+    list-style-type: none;
+}
+
+.faq-ul {
+    list-style-type: none;
+}
+
+.faq-h1 {
+    margin: 2% -2%;
+}
+
+.faq-question {
+    font-weight: bold;
+    font-size: 14pt;
+}
+
+.faq-answer {
+    font-size: 12pt;
+    margin-bottom: 2%;
+}
+
+#article-div {
+    text-align: center;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+#faq-div {
+    text-align: center;
+    margin-left: 2%;
+    margin-right: 2%;
+}
