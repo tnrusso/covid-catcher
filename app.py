@@ -88,15 +88,22 @@ def faqList():
         question_list.append(item.question)
         answer_list.append(item.answer)
     socketio.emit(FAQS,{'question': question_list, 'answer': answer_list } )
+    
 def articleList():
-    a = get_news(5, since = news.YESTERDAY.strftime("%yyyy-%mm-%dd"),  query = 'covid')
-    newsList = []
-    for art in a:
-        newsList.append(art.image)
-        newsList.append(art.url)
-        newsList.append(art.title)
-        newsList.append(art.description)
-    socketio.emit(ARTICLE,{'articles':newsList})
+    articles = get_news(5, since = news.YESTERDAY.strftime("%yyyy-%mm-%dd"),  query = 'covid')
+    title_list = []
+    desc_list = []
+    url_list = []
+    image_list = []
+    source_list = []
+    for art in articles:
+        image_list.append(art.image)
+        title_list.append(art.title)
+        source_list.append(art.source)
+        desc_list.append(art.description)
+        url_list.append(art.url)
+    socketio.emit(ARTICLE,{'title': title_list, 'desc':desc_list,'url':url_list, 'img': image_list, 'sources': source_list})
+    
 @socketio.on("connect")
 def on_connect():
     push_stat_data() 
