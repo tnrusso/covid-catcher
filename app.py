@@ -31,6 +31,7 @@ db.session.commit()
 USERS_UPDATED_CHANNEL = "users updated"
 STATISTICS = "stats"
 NEWUSER = "new user"
+FAQS = "faq list"
 
 
 def emit_all_users(channel):
@@ -59,6 +60,7 @@ def push_new_user_to_db(name, email, picture, room):
     login = 1   
     userLog()
     push_stat_data()
+    faqList()
     emit_all_users(USERS_UPDATED_CHANNEL)
 
 def userLog():
@@ -70,18 +72,31 @@ def push_stat_data():
     case = information.cases
     death = information.deaths
     rec = information.recovered
+    
     print("CASES DEATHS AND RECOVERED: ",case, death, rec)
     socketio.emit(STATISTICS, {'cases' : case, 'deaths' : death, 'recovered' : rec})
-
 def faqList():
     q = get_all_questions()
+    qList = []
+    aList = []
+    ahList = []
+    sList = []
     for x in q:
+        qList.append("Q: "+x.question)
+        qList.append("A: "+x.answer)
+        qList.append("Link: "+x.answer_html)
+        qList.append("Source: "+x.source)
+        '''
         print(x.question)
         print(x.answer)
         print(x.answer_html)
-        print(x.source)
-    
-    
+        print(x.source)'''
+    socketio.emit(FAQS,{'everything': qList } )
+   
+@socketio.on("connect")
+def on_connect():
+    push_stat_data() 
+    faqList()
 def checkLogin(NEWUSER):
     x = 1
     socketio.emit(NEWUSER, {"login": x})
