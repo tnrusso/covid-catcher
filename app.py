@@ -1,5 +1,4 @@
 import os
-import json
 from os.path import join, dirname
 from datetime import datetime
 import flask
@@ -13,6 +12,8 @@ from faq import get_all_questions
 from faq import FAQ
 import news
 from news import get_news
+import json
+
 
 app = flask.Flask(__name__)
 socketio = flask_socketio.SocketIO(app)
@@ -78,20 +79,15 @@ def push_stat_data():
     
     print("CASES DEATHS AND RECOVERED: ",case, death, rec)
     socketio.emit(STATISTICS, {'cases' : case, 'deaths' : death, 'recovered' : rec})
+    
 def faqList():
-    q = get_all_questions()
-    qList = []
-    for x in q:
-        qList.append("Q: "+x.question)
-        qList.append("A: "+x.answer)
-        qList.append("Link: "+x.answer_html)
-        qList.append("Source: "+x.source)
-        '''
-        print(x.question)
-        print(x.answer)
-        print(x.answer_html)
-        print(x.source)'''
-    socketio.emit(FAQS,{'everything': qList } )
+    faqs = get_all_questions()
+    question_list = []
+    answer_list = []
+    for item in faqs:
+        question_list.append(item.question)
+        answer_list.append(item.answer)
+    socketio.emit(FAQS,{'question': question_list, 'answer': answer_list } )
 def articleList():
     a = get_news(5, since = news.YESTERDAY.strftime("%yyyy-%mm-%dd"),  query = 'covid')
     newsList = []
