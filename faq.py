@@ -5,7 +5,7 @@ def get_all_questions():
     url = ("https://faq.coronavirus.gov/api/v2/questions.json")
     response=requests.get(url)
     data = response.json()
-    
+    max_num_faqs = 0
     for question in data:
         q=question['title']
         if q != 'None':
@@ -18,7 +18,9 @@ def get_all_questions():
             sources = sources[:-2]
             
             questions.append(FAQ(q,a,a_html,sources))
-    
+            max_num_faqs += 1
+            if max_num_faqs == 25:
+                break
     return questions
 
 class FAQ:
