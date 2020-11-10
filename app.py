@@ -12,6 +12,7 @@ from covid import get_covid_stats_by_state
 from faq import get_all_questions
 from faq import FAQ
 import news
+from news import get_news
 
 app = flask.Flask(__name__)
 socketio = flask_socketio.SocketIO(app)
@@ -32,6 +33,7 @@ USERS_UPDATED_CHANNEL = "users updated"
 STATISTICS = "stats"
 NEWUSER = "new user"
 FAQS = "faq list"
+ARTICLE = "article list"
 
 
 def emit_all_users(channel):
@@ -61,6 +63,7 @@ def push_new_user_to_db(name, email, picture, room):
     userLog()
     push_stat_data()
     faqList()
+    articleList()
     emit_all_users(USERS_UPDATED_CHANNEL)
 
 def userLog():
@@ -78,9 +81,6 @@ def push_stat_data():
 def faqList():
     q = get_all_questions()
     qList = []
-    aList = []
-    ahList = []
-    sList = []
     for x in q:
         qList.append("Q: "+x.question)
         qList.append("A: "+x.answer)
@@ -92,11 +92,20 @@ def faqList():
         print(x.answer_html)
         print(x.source)'''
     socketio.emit(FAQS,{'everything': qList } )
-   
+def articleList():
+    a = get_news(5, since = news.YESTERDAY.strftime("%yyyy-%mm-%dd"),  query = 'covid')
+    newsList = []
+    for art in a:
+        newsList.append(art.image)
+        newsList.append(art.url)
+        newsList.append(art.title)
+        newsList.append(art.description)
+    socketio.emit(ARTICLE,{'articles':newsList})
 @socketio.on("connect")
 def on_connect():
     push_stat_data() 
     faqList()
+    articleList()
 def checkLogin(NEWUSER):
     x = 1
     socketio.emit(NEWUSER, {"login": x})

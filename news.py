@@ -2,13 +2,15 @@ import requests
 import os
 from datetime import date
 from datetime import timedelta 
-
+from os.path import join, dirname
+from dotenv import load_dotenv
 YESTERDAY = date.today() - timedelta(days = 1) 
 SOURCES = ('abc-news,associated-press,bloomberg,'
         'cbs-news,cnn,fox-news,google-news,'
         'independent,msnbc,medical-news-today,'
         'nbc-news,the-hill,usa-today')
-
+dotenv_path = join(dirname(__file__), "api-keys.env")
+load_dotenv(dotenv_path)
 def get_news(amtArticles, since = YESTERDAY.strftime("%yyyy-%mm-%dd"), query = 'covid'):
     '''
     This function is used to pull articles from NEWS API
