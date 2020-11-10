@@ -25,7 +25,7 @@ export function Navigation() {
           <li><a href="/articles">Articles</a></li>
           <li><a href="/faq">FAQ</a></li>
           <li><a href="/statistics">Statistics</a></li>
-          <li><a href="/login">Login</a></li>
+          <li><a href="/questionnaire">Questionnaire</a></li>
         </ul>
         <form onSubmit={handleSubmit} className="navbar-form d-flex justify-content-center w-100 navbar-right">
           <input type="text" value={text} onChange={handleChange} className="form-control" />

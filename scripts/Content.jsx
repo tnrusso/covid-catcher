@@ -29,7 +29,7 @@ export function Content() {
           <Route exact path="/statistics">
             <Stats />
           </Route>
-          <Route exact path="/login">
+          <Route exact path="/questionnaire">
             <Login />
           </Route>
           <Route path="*">
