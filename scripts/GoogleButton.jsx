@@ -8,6 +8,7 @@ export function GoogleButton() {
   const [message, setMessage] = useState('');
   
   function handleSuccess(response) {
+    setMessage('Thank you..');
     const name = response.profileObj.givenName;
     const email = response.profileObj.email;
     const pic = response.profileObj.imageUrl;
@@ -26,7 +27,7 @@ export function GoogleButton() {
   return (
     <div>
     <GoogleLogin
-      clientId="384828659329-rnk23bh8ej7chi3470j140m46g9eua32.apps.googleusercontent.com"
+      clientId="647618540134-q6v0kfdeo8od51bhlmv8l4uere8oemi6.apps.googleusercontent.com"
       buttonText="Login"
       onSuccess={handleSuccess}
       onFailure={handleFailure}
