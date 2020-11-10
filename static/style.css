@@ -13,6 +13,27 @@ body {
     list-style-type: none;
 }
 
+.article-li {
+    background-color: #e8e8e8;
+    margin-top: 2.5%;
+    margin-bottom: 2.5%;
+    border-width: 5px;  
+    border-style: ridge;
+}
+
+.article-title {
+    font-weight: bold;
+    font-size: 14pt;
+}
+
+.article-image {
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
 .faq-ul {
     list-style-type: none;
 }
