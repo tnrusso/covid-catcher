@@ -37,7 +37,7 @@ export function Articles() {
     <div id="article-div">
       <h1 className="article-h1">COVID-19 Articles</h1>
       <ul className="articles-ul">
-        {listItemsA}
+        {listItems}
          
        
       </ul>

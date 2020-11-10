@@ -3,3 +3,4 @@ static/script.js
 package-lock.json
 __pycache__/
 sql.env
+api-keys.env
