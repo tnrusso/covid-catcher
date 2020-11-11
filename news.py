@@ -61,7 +61,7 @@ def get_news(amtArticles, since = YESTERDAY.strftime("%yyyy-%mm-%dd"), query = '
         return articles
         
     else:
-        return {'Error': 'API call failed, status= ' + data['status'] }
+        return {'Error': 'API call failed, status = ' + data['status'] }
     
 
 class Article:
@@ -73,7 +73,7 @@ class Article:
         self.image = image
         self.publishDate = publishDate
         self.url = url
-        
+
 '''
 {
     "status": "ok",
