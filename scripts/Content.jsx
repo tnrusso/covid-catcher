@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Socket } from './Socket';
 import { Navigation } from './Navigation';
 import { Home } from './Home';
 import { Faq } from './Faq';
@@ -10,7 +9,6 @@ import { Login } from './Login';
 import { Stats } from './Stats';
 
 export function Content() {
-
   return (
     <div>
       <Navigation />

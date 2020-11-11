@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Socket } from './Socket';
 
 export function Navigation() {
   const [text, setText] = React.useState('');

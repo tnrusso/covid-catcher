@@ -11,12 +11,12 @@ export function Faq() {
         setQuestion(data.question);
         setAnswer(data.answer);
       });
-      return() => Socket.off('faq list');
+      return () => Socket.off('faq list');
     });
   }
 
   getFaqs();
-  
+
   return (
     <div id="faq-div">
       <h1 className="faq-h1">Frequently Asked Questions</h1>

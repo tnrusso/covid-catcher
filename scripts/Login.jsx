@@ -9,7 +9,7 @@ export function Login() {
   function newUser() {
     React.useEffect(() => {
       Socket.on('new user', (data) => {
-        setLoggedIn(data['login']);
+        setLoggedIn(data.login);
       });
       return () => Socket.off('new user');
     });
@@ -24,14 +24,11 @@ export function Login() {
       </div>
     );
   }
-  else{
-    return (
-      <div>
-        <h1>Please Login with Google</h1>
-        <GoogleButton />
-      </div>
+
+  return (
+    <div>
+      <h1>Please Login with Google</h1>
+      <GoogleButton />
+    </div>
   );
-  
-}
-  
 }
