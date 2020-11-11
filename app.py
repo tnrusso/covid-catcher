@@ -13,7 +13,9 @@ from faq import FAQ
 import news
 from news import get_news
 import json
-
+import location
+from location import get_location
+from flask import request
 
 app = flask.Flask(__name__)
 socketio = flask_socketio.SocketIO(app)
@@ -62,17 +64,14 @@ def push_new_user_to_db(name, email, picture, room):
         db.session.commit()
     login = 1   
     userLog()
-    push_stat_data()
-    faqList()
-    articleList()
     emit_all_users(USERS_UPDATED_CHANNEL)
 
 def userLog():
     if login == 1:
         socketio.emit(NEWUSER,{'login' : 1})
         
-def push_stat_data():
-    information = get_covid_stats_by_state("New Jersey")
+def push_stat_data(state):
+    information = get_covid_stats_by_state(state)
     case = information.cases
     death = information.deaths
     rec = information.recovered
@@ -103,12 +102,16 @@ def articleList():
         desc_list.append(art.description)
         url_list.append(art.url)
     socketio.emit(ARTICLE,{'title': title_list, 'desc':desc_list,'url':url_list, 'img': image_list, 'sources': source_list})
-    
+
 @socketio.on("connect")
 def on_connect():
-    push_stat_data() 
     faqList()
     articleList()
+    ip = request.environ['HTTP_X_FORWARDED_FOR']
+    loc = get_location(ip)
+    state = loc.state
+    push_stat_data(state)
+    
 def checkLogin(NEWUSER):
     x = 1
     socketio.emit(NEWUSER, {"login": x})
@@ -117,9 +120,6 @@ def checkLogin(NEWUSER):
 @app.route("/")
 def index():
     """loads page"""
-    emit_all_users(USERS_UPDATED_CHANNEL)
-    push_stat_data()
-    faqList()
     return flask.render_template("index.html")
 
 
