@@ -5,6 +5,7 @@ import sys, os
 sys.path.append('../')
 from faq import get_all_questions, FAQ
 from news import get_news, Article
+from location import get_location, Location
 
 class MockResponse:
     def __init__(self, json_data, status_code):
@@ -81,10 +82,23 @@ def mock_news_request_one(url):
     
     return MockResponse(data, 200)
     
+
 def mock_news_request_two(url):
     data= {"status":"404",
         "totalResults":0}
     return MockResponse(data, 200)
+
+def mock_location_request_one(url):
+    data={
+        "country_code":"US",
+        "country_name":"United States",
+        "region_code":"NJ",
+        "region_name":"New Jersey",
+        "city":"Newark",
+        "zip":"O7103"
+    }
+    
+    return MockResponse(data,200)
 
 class api_unit_tests(unittest.TestCase):
     def setUp(self):
@@ -173,8 +187,17 @@ class api_unit_tests(unittest.TestCase):
             error = get_news(1)
             self.assertEqual(error['Error'], EXPETECTED_ERROR)
             
-                
+    def test_get_location_one(self):
+        EXPETECTED_RESULT=Location("US","United States","NJ","New Jersey","Newark","O7103")
         
-        
+        with mock.patch("requests.get", mock_location_request_one):
+            location = get_location("122.122.122.122")
+            self.assertEqual(location.country_code,EXPETECTED_RESULT.country_code)
+            self.assertEqual(location.country_name,EXPETECTED_RESULT.country_name)
+            self.assertEqual(location.state_code,EXPETECTED_RESULT.state_code)
+            self.assertEqual(location.state,EXPETECTED_RESULT.state)
+            self.assertEqual(location.city,EXPETECTED_RESULT.city)
+            self.assertEqual(location.zipcode,EXPETECTED_RESULT.zipcode)
+            
 if __name__ == '__main__':
     unittest.main()
