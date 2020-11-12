@@ -6,6 +6,8 @@ sys.path.append('../')
 from faq import get_all_questions, FAQ
 from news import get_news, Article
 from location import get_location, Location
+from covid import get_covid_stats_by_county, CountyStats
+from covid import get_covid_stats_by_state, StateStats
 
 class MockResponse:
     def __init__(self, json_data, status_code):
@@ -100,6 +102,45 @@ def mock_location_request_one(url):
     
     return MockResponse(data,200)
 
+def mock_state_covid_request_one(url):
+    data={
+        "state":"New Jersey",
+        "cases":2000,
+        "todayCases":1000,
+        "deaths":566,
+        "todayDeaths":34563,
+        "recovered":3455,
+        "active":677,
+        "tests":45,
+        "casesPerOneMillion":100,
+        "deathsPerOneMillion":456,
+        "testsPerOneMillion":6436
+    }
+    
+    return MockResponse(data,200)
+
+def mock_county_covid_request_one(url):
+    data= [{
+        "province":"New York",
+        "updatedAt":"11/11/2020",
+        "stats": {
+            "confirmed":566,
+            "deaths":34563,
+            "recovered":3455
+        }
+        },{
+        "province":"New Jersey",
+        "updatedAt":"11/11/2020",
+        "stats": {
+            "confirmed":566,
+            "deaths":34563,
+            "recovered":3455,
+        }
+        }
+    ]
+    
+    return MockResponse(data,200)
+    
 class api_unit_tests(unittest.TestCase):
     def setUp(self):
         """set up"""
@@ -198,6 +239,33 @@ class api_unit_tests(unittest.TestCase):
             self.assertEqual(location.state,EXPETECTED_RESULT.state)
             self.assertEqual(location.city,EXPETECTED_RESULT.city)
             self.assertEqual(location.zipcode,EXPETECTED_RESULT.zipcode)
-            
+    
+    def test_get_covid_stats_by_state_one(self):
+        EXPECTED_RESULT=StateStats("New Jersey",2000,1000,677,100,566,34563,456,3455,45,6436)
+        with mock.patch("requests.get", mock_state_covid_request_one):
+            stats = get_covid_stats_by_state("New Jersey")
+            self.assertEqual(stats.state,EXPECTED_RESULT.state)
+            self.assertEqual(stats.cases,EXPECTED_RESULT.cases)
+            self.assertEqual(stats.todaysCases,EXPECTED_RESULT.todaysCases)
+            self.assertEqual(stats.activeCases,EXPECTED_RESULT.activeCases)
+            self.assertEqual(stats.casesPerMillion,EXPECTED_RESULT.casesPerMillion)
+            self.assertEqual(stats.deaths,EXPECTED_RESULT.deaths)
+            self.assertEqual(stats.todayDeaths,EXPECTED_RESULT.todayDeaths)
+            self.assertEqual(stats.deathsPerMillion,EXPECTED_RESULT.deathsPerMillion)
+            self.assertEqual(stats.recovered,EXPECTED_RESULT.recovered)
+            self.assertEqual(stats.tests,EXPECTED_RESULT.tests)
+            self.assertEqual(stats.testsPerPerMillion,EXPECTED_RESULT.testsPerPerMillion)
+    
+    def test_get_covid_stats_by_county_one(self):
+        EXPECTED_RESULT=CountyStats("New Jersey","Passaic","11/11/2020",566,34563,3455)
+        with mock.patch("requests.get", mock_county_covid_request_one):
+            stats = get_covid_stats_by_county("New Jersey","Passaic")
+            self.assertEqual(stats.state,EXPECTED_RESULT.state)
+            self.assertEqual(stats.county,EXPECTED_RESULT.county)
+            self.assertEqual(stats.updatedAt,EXPECTED_RESULT.updatedAt)
+            self.assertEqual(stats.confirmed,EXPECTED_RESULT.confirmed)
+            self.assertEqual(stats.deaths,EXPECTED_RESULT.deaths)
+            self.assertEqual(stats.recovered,EXPECTED_RESULT.recovered)
+
 if __name__ == '__main__':
     unittest.main()
