@@ -19,15 +19,15 @@ export function Login() {
 
   if (loggedIn === 1) {
     return (
-      <div>
+      <div id="login-div">
         <Quest />
       </div>
     );
   }
 
   return (
-    <div>
-      <h1>Please Login with Google</h1>
+    <div id="login-div">
+      <h1 className="login-h1">Please Login with Google</h1>
       <GoogleButton />
     </div>
   );

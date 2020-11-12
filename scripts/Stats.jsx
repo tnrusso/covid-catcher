@@ -20,8 +20,8 @@ export function Stats() {
   getStats();
 
   return (
-    <div>
-      <h1>Statistics</h1>
+    <div id="stats-div">
+      <h1 className="stats-h1">Statistics</h1>
       <h2>
         Current active cases:
         {cases}
