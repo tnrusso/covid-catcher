@@ -40,5 +40,22 @@
     "react-google-login": "^5.1.22",
     "react-router-dom": "^5.2.0",
     "socket.io-client": "^2.3.1"
-  }
+  },
+  "name": "project3-sec3group4",
+  "description": "![alt text](https://github.com/NJIT-CS490/project3-sec3group4/blob/master/static/covid_catcher.png?raw=true)",
+  "version": "1.0.0",
+  "main": ".eslintrc.js",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NJIT-CS490/project3-sec3group4.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NJIT-CS490/project3-sec3group4/issues"
+  },
+  "homepage": "https://github.com/NJIT-CS490/project3-sec3group4#readme"
 }
