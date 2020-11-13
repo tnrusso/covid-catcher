@@ -12,8 +12,9 @@ Heroku link: [https://obscure-ocean-16087.herokuapp.com/](https://obscure-ocean-
 - 
 
 ### Andrea
-- 
-- 
+- Front end for Login page 
+- Fron end for Statistics page
+- Helped with mocked tests for app.py
 
 ### Tim
 - 
