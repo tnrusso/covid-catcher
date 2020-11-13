@@ -1,18 +1,16 @@
 #unmocked_unit_tests.py
 """Unmocked Unit Test for app.py"""
 import unittest
-from os.path import join, dirname
 import sys
-sys.path.insert(1, join(dirname(__file__), "../"))
-import models
+from os.path import join, dirname
 from app import push_new_user_to_db
 from app import on_new_google_user
 from app import emit_all_users
-from app import on_connect
 from app import userLog
-from app import push_stat_data
-from app import faqList
-from app import articleList
+import models
+sys.path.insert(1, join(dirname(__file__), "../"))
+
+
 KEY_INPUT = 'input'
 KEY_EXPECTED = "expected"
 KEY_ANSWER = 'answer'

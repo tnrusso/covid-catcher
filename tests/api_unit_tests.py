@@ -1,23 +1,31 @@
+"""API Unit Test"""
 import unittest
-import mock
+import unittest.mock as mock
 import json
-import sys, os
-sys.path.append('../')
-from faq import get_all_questions, FAQ
+import sys
+import os
+from faq import get_all_questions
+from faq import FAQ
 from news import get_news, Article
-from location import get_location, Location
-from covid import get_covid_stats_by_county, CountyStats
-from covid import get_covid_stats_by_state, StateStats
-
+from location import get_location
+from location import Location
+from covid import get_covid_stats_by_county
+from covid import CountyStats
+from covid import get_covid_stats_by_state
+from covid import StateStats
+sys.path.append('../')
 class MockResponse:
+    """Mock Response Class"""
     def __init__(self, json_data, status_code):
         self.json_data = json_data
         self.status_code = status_code
 
     def json(self):
+        """defines json"""
         return self.json_data
 
 def mock_faq_request_one(url):
+    """Mock Test For Faq"""
     data = [
         {
             "title":"What is Covid?",
@@ -26,10 +34,10 @@ def mock_faq_request_one(url):
             "sources":[{"agency":"cdc"}, { "agency":"who"}]
         }
     ]
-    
     return MockResponse(data, 200)
 
 def mock_faq_request_two(url):
+    """Mock Test For Faq"""
     data = [
         {
             "title":"What is Covid?",
@@ -50,10 +58,10 @@ def mock_faq_request_two(url):
             "sources":[{"agency":"cdc"}]
         }
     ]
-    
     return MockResponse(data, 200)
 
 def mock_news_request_one(url):
+    """Mock Test For NEWS"""
     data = {"status":"ok",
         "totalResults":2,
         "articles":[ {
@@ -81,16 +89,16 @@ def mock_news_request_one(url):
             "content": "content is here"
         }
     ]}
-    
     return MockResponse(data, 200)
-    
 
 def mock_news_request_two(url):
+    """Mock Test For NEWS"""
     data= {"status":"404",
         "totalResults":0}
     return MockResponse(data, 200)
 
 def mock_location_request_one(url):
+    """Mock Test For Location"""
     data={
         "country_code":"US",
         "country_name":"United States",
@@ -99,10 +107,10 @@ def mock_location_request_one(url):
         "city":"Newark",
         "zip":"O7103"
     }
-    
     return MockResponse(data,200)
 
 def mock_state_covid_request_one(url):
+    """Mock Test For Covid.py States"""
     data={
         "state":"New Jersey",
         "cases":2000,
@@ -116,10 +124,10 @@ def mock_state_covid_request_one(url):
         "deathsPerOneMillion":456,
         "testsPerOneMillion":6436
     }
-    
     return MockResponse(data,200)
 
 def mock_county_covid_request_one(url):
+    """Mock Test For Covid.py county"""
     data= [{
         "province":"New York",
         "updatedAt":"11/11/2020",
@@ -138,41 +146,34 @@ def mock_county_covid_request_one(url):
         }
         }
     ]
-    
     return MockResponse(data,200)
-    
+
 class api_unit_tests(unittest.TestCase):
+    """API Unit Test Class"""
     def setUp(self):
         """set up"""
         self.maxDiff=None
-    
     def tearDown(self):
         """tear down"""
         pass
-    
     def test_get_all_questions_one(self):
-        
+        """Testing FAQ"""
         EXPECTED_QUESTION = FAQ("What is Covid?","Covid is covid.","<p>Covid is covid.</p>","cdc, who")
-        
         with mock.patch("requests.get", mock_faq_request_one):
             questions = get_all_questions()
-            
             question = questions[0]
-            
             self.assertEqual(question.question, EXPECTED_QUESTION.question)
             self.assertEqual(question.answer, EXPECTED_QUESTION.answer)
             self.assertEqual(question.answer_html, EXPECTED_QUESTION.answer_html)
             self.assertEqual(question.source, EXPECTED_QUESTION.source)
-    
     def test_get_all_questions_two(self):
+        """Testing FAQ"""
         EXPECTED_QUESTIONS = [
             FAQ("What is Covid?","Covid is covid.","<p>Covid is covid.</p>","cdc, who"),
             FAQ("Where is Covid?","Covid is here.","<p>Covid is here.</p>","cdc")
         ]
-        
         with mock.patch("requests.get", mock_faq_request_two):
             questions = get_all_questions()
-            
             for i in range(0,len(questions)):
                 question = questions[i]
                 EXPECTED_QUESTION=EXPECTED_QUESTIONS[i]
@@ -180,17 +181,16 @@ class api_unit_tests(unittest.TestCase):
                 self.assertEqual(question.answer, EXPECTED_QUESTION.answer)
                 self.assertEqual(question.answer_html, EXPECTED_QUESTION.answer_html)
                 self.assertEqual(question.source, EXPECTED_QUESTION.source)
-   
     def test_get_news_one(self):
+        """Testing NEWS"""
         response = get_news(0)
         self.assertEqual(response['Error'],'Amount of articles must be > 0')
-        
     def test_get_new_two(self):
+        """Testing NEWS"""
         EXPECTED_ARTICLES= [
             Article("Test_Title","CBS News","this is a description","CBS News","image.jpg","a time","link to article"),
             Article("Test_Title","CBS News","this is a description","CBS News","image.jpg","a time","link to article")
         ]
-        
         with mock.patch("requests.get", mock_news_request_one):
             articles = get_news(2)
             for i in range(0,len(articles)):
@@ -203,12 +203,11 @@ class api_unit_tests(unittest.TestCase):
                 self.assertEqual(article.image, expected_article.image)
                 self.assertEqual(article.publishDate, expected_article.publishDate)
                 self.assertEqual(article.url, expected_article.url)
-    
     def test_get_new_three(self):
+        """Testing NEWS"""
         EXPECTED_ARTICLES= [
             Article("Test_Title","CBS News","this is a description","CBS News","image.jpg","a time","link to article")
         ]
-        
         with mock.patch("requests.get", mock_news_request_one):
             articles = get_news(1)
             for i in range(0,len(articles)):
@@ -221,16 +220,15 @@ class api_unit_tests(unittest.TestCase):
                 self.assertEqual(article.image, expected_article.image)
                 self.assertEqual(article.publishDate, expected_article.publishDate)
                 self.assertEqual(article.url, expected_article.url)
-    
     def test_get_new_four(self):
+        """Testing NEWS"""
         EXPETECTED_ERROR='API call failed, status = 404'
         with mock.patch("requests.get", mock_news_request_two):
             error = get_news(1)
             self.assertEqual(error['Error'], EXPETECTED_ERROR)
-            
     def test_get_location_one(self):
+        """Testing Location"""
         EXPETECTED_RESULT=Location("US","United States","NJ","New Jersey","Newark","O7103")
-        
         with mock.patch("requests.get", mock_location_request_one):
             location = get_location("122.122.122.122")
             self.assertEqual(location.country_code,EXPETECTED_RESULT.country_code)
@@ -239,8 +237,8 @@ class api_unit_tests(unittest.TestCase):
             self.assertEqual(location.state,EXPETECTED_RESULT.state)
             self.assertEqual(location.city,EXPETECTED_RESULT.city)
             self.assertEqual(location.zipcode,EXPETECTED_RESULT.zipcode)
-    
     def test_get_covid_stats_by_state_one(self):
+        """Testing Covid.py states"""
         EXPECTED_RESULT=StateStats("New Jersey",2000,1000,677,100,566,34563,456,3455,45,6436)
         with mock.patch("requests.get", mock_state_covid_request_one):
             stats = get_covid_stats_by_state("New Jersey")
@@ -255,8 +253,8 @@ class api_unit_tests(unittest.TestCase):
             self.assertEqual(stats.recovered,EXPECTED_RESULT.recovered)
             self.assertEqual(stats.tests,EXPECTED_RESULT.tests)
             self.assertEqual(stats.testsPerPerMillion,EXPECTED_RESULT.testsPerPerMillion)
-    
     def test_get_covid_stats_by_county_one(self):
+        """Testing Covid.py county"""
         EXPECTED_RESULT=CountyStats("New Jersey","Passaic","11/11/2020",566,34563,3455)
         with mock.patch("requests.get", mock_county_covid_request_one):
             stats = get_covid_stats_by_county("New Jersey","Passaic")
@@ -266,6 +264,6 @@ class api_unit_tests(unittest.TestCase):
             self.assertEqual(stats.confirmed,EXPECTED_RESULT.confirmed)
             self.assertEqual(stats.deaths,EXPECTED_RESULT.deaths)
             self.assertEqual(stats.recovered,EXPECTED_RESULT.recovered)
-
 if __name__ == '__main__':
     unittest.main()
+    

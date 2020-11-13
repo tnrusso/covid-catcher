@@ -1,7 +1,11 @@
+#pylint: disable=C0103
+"""Covid Catcher Backend"""
 import os
 from os.path import join, dirname
 from datetime import datetime
+import json
 import flask
+from flask import request
 import flask_sqlalchemy
 import flask_socketio
 import requests
@@ -11,21 +15,16 @@ from faq import get_all_questions
 from faq import FAQ
 import news
 from news import get_news
-import json
 import location
 from location import get_location
-from flask import request
-
 app = flask.Flask(__name__)
 socketio = flask_socketio.SocketIO(app)
 socketio.init_app(app, cors_allowed_origins="*")
 dotenv_path = join(dirname(__file__), "sql.env")
 load_dotenv(dotenv_path)
-
 database_uri = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
 login=0
-
 db = flask_sqlalchemy.SQLAlchemy(app)
 db.init_app(app)
 db.app = app
@@ -36,16 +35,12 @@ STATISTICS = "stats"
 NEWUSER = "new user"
 FAQS = "faq list"
 ARTICLE = "article list"
-
 import models
-
 def emit_all_users(channel):
     """emits all users"""
     all_users = [user.name for user in db.session.query(models.User1).all()]
     socketio.emit(channel, {"allUsers": all_users})
     return channel
-
-
 @socketio.on("new google user")
 def on_new_google_user(data):
     """new user when log in"""
@@ -69,10 +64,12 @@ def push_new_user_to_db(name, email, picture, room):
     return name
 
 def userLog():
+    """User Login Check"""
     if login == 1:
         socketio.emit(NEWUSER,{'login' : 1})
     return True
 def push_stat_data(state):
+    """Calls Covid API"""
     information = get_covid_stats_by_state(state)
     case = information.cases
     death = information.deaths
@@ -84,6 +81,7 @@ def push_stat_data(state):
     return r
 
 def faqList():
+    """Calls the FAQ API"""
     faqs = get_all_questions()
     question_list = []
     answer_list = []
@@ -93,6 +91,7 @@ def faqList():
     socketio.emit(FAQS,{'question': question_list, 'answer': answer_list } )
     return True
 def articleList():
+    """Calls the Article API"""
     articles = get_news(5, since = news.YESTERDAY.strftime("%yyyy-%mm-%dd"),  query = 'covid')
     title_list = []
     desc_list = []
@@ -110,6 +109,7 @@ def articleList():
     return True
 @socketio.on("connect")
 def on_connect():
+    """Socket for when user connects"""
     faqList()
     articleList()
     ip = request.environ['HTTP_X_FORWARDED_FOR']
@@ -126,6 +126,7 @@ def index():
 
 @app.errorhandler(404)
 def page_not_found(e):
+    """Handles Page Not Found"""
     return flask.render_template("index.html")
 
 

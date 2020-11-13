@@ -1,10 +1,11 @@
-import requests
+"""API Call that gets Articles"""
 import os
-from datetime import date
-from datetime import timedelta 
 from os.path import join, dirname
+from datetime import date
+from datetime import timedelta
+import requests
 from dotenv import load_dotenv
-YESTERDAY = date.today() - timedelta(days = 1) 
+YESTERDAY = date.today() - timedelta(days = 1)
 SOURCES = ('abc-news,associated-press,bloomberg,'
         'cbs-news,cnn,fox-news,google-news,'
         'independent,msnbc,medical-news-today,'
@@ -22,14 +23,11 @@ def get_news(amtArticles, since = YESTERDAY.strftime("%yyyy-%mm-%dd"), query = '
                 DEFUALT: covid
         RETURNS
             an array of Article objects
-    '''    
-    
-    if amtArticles < 1: 
+    '''
+    if amtArticles < 1:
         return {'Error':'Amount of articles must be > 0'}
-    
     #ensure that the query is one word
     query = query.split()[0]
-    
     url = ('http://newsapi.org/v2/top-headlines?'
             'sources='+SOURCES+'&'
             'q='+query+'&'
@@ -38,14 +36,10 @@ def get_news(amtArticles, since = YESTERDAY.strftime("%yyyy-%mm-%dd"), query = '
             'apiKey='+ os.environ['NEWS_API_KEY'])
     response=requests.get(url)
     data = response.json()
-    
     articles = []
-    
     if data['status'] == 'ok':
-        
         if data['totalResults'] < amtArticles:
             amtArticles=data['totalResults']
-            
         for i in range(0,amtArticles):
             art = data['articles'][i]
             source = art['source']['name']
@@ -55,16 +49,13 @@ def get_news(amtArticles, since = YESTERDAY.strftime("%yyyy-%mm-%dd"), query = '
             link = art['url']
             image = art['urlToImage']
             pubDate = art['publishedAt']
-            
             articles.append(Article(title, author, desc, source, image, pubDate, link))
-            
         return articles
-        
     else:
         return {'Error': 'API call failed, status = ' + data['status'] }
-    
 
 class Article:
+    """Class for Articles"""
     def __init__(self, title, author, description, source, image, publishDate, url):
         self.title = title
         self.author = author
