@@ -6,7 +6,6 @@ import flask_sqlalchemy
 import flask_socketio
 import requests
 from dotenv import load_dotenv
-import models
 from covid import get_covid_stats_by_state
 from faq import get_all_questions
 from faq import FAQ
@@ -38,6 +37,7 @@ NEWUSER = "new user"
 FAQS = "faq list"
 ARTICLE = "article list"
 
+import models
 
 def emit_all_users(channel):
     """emits all users"""
@@ -63,7 +63,7 @@ def push_new_user_to_db(name, email, picture, room):
     else:
         db.session.add(models.User1(name, email, picture, room))
         db.session.commit()
-    login = 1   
+    login = 1
     userLog()
     emit_all_users(USERS_UPDATED_CHANNEL)
     return name
@@ -71,18 +71,18 @@ def push_new_user_to_db(name, email, picture, room):
 def userLog():
     if login == 1:
         socketio.emit(NEWUSER,{'login' : 1})
-    return True   
+    return True
 def push_stat_data(state):
     information = get_covid_stats_by_state(state)
     case = information.cases
     death = information.deaths
     rec = information.recovered
-    
+
     print("CASES DEATHS AND RECOVERED: ",case, death, rec)
     socketio.emit(STATISTICS, {'cases' : case, 'deaths' : death, 'recovered' : rec})
     r = "stats are pushed"
     return r
-    
+
 def faqList():
     faqs = get_all_questions()
     question_list = []
@@ -105,7 +105,8 @@ def articleList():
         source_list.append(art.source)
         desc_list.append(art.description)
         url_list.append(art.url)
-    socketio.emit(ARTICLE,{'title': title_list, 'desc':desc_list,'url':url_list, 'img': image_list, 'sources': source_list})
+    socketio.emit(ARTICLE,{'title': title_list, 'desc':desc_list,'url':url_list,
+                    'img': image_list, 'sources': source_list})
     return True
 @socketio.on("connect")
 def on_connect():

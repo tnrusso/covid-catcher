@@ -59,14 +59,14 @@ class DbTest(unittest.TestCase):
                 }
             }
         ]
-    def parse_message_success(self):
+    def test_parse_message_success(self):
         """success tests"""
         for test in self.success_test_params:
             response = test[KEY_INPUT]
             testing = push_new_user_to_db(response[KEY_NAME],response[KEY_EMAIL], response[KEY_PIC], response[KEY_ROOM])
             expected = test[KEY_EXPECTED]
             self.assertEqual(testing, expected[KEY_ANSWER])
-    def parse_message_failure(self):
+    def test_parse_message_failure(self):
         """failure tests"""
         for test in self.failure_test_params:
             response = test[KEY_INPUT]
@@ -96,14 +96,14 @@ class EmitTest(unittest.TestCase):
                 }
             }
         ]
-    def parse_message_success(self):
+    def test_parse_message_success(self):
         """success tests"""
         for test in self.success_test_params:
             response = test[KEY_INPUT]
             testing = emit_all_users(response[KEY_MESSAGE])
             expected = test[KEY_EXPECTED]
             self.assertEqual(testing, expected[KEY_ANSWER])
-    def parse_message_failure(self):
+    def test_parse_message_failure(self):
         """failure tests"""
         for test in self.failure_test_params:
             response = test[KEY_INPUT]
@@ -139,14 +139,14 @@ class NewTest(unittest.TestCase):
                     }
             }
         ]
-    def parse_message_success(self):
+    def test_parse_message_success(self):
         """success tests"""
         for test in self.success_test_params:
             response = test[KEY_INPUT]
             testing = on_new_google_user(response)
             expected = test[KEY_EXPECTED]
             self.assertEqual(testing, expected[KEY_ANSWER])
-    def parse_message_failure(self):
+    def test_parse_message_failure(self):
         """failure tests"""
         for test in self.failure_test_params:
             response = test[KEY_INPUT]
@@ -172,13 +172,13 @@ class LoginTest(unittest.TestCase):
                     }
             }
         ]
-    def parse_message_success(self):
+    def test_parse_message_success(self):
         """success tests"""
         for test in self.success_test_params:
             testing = userLog()
             expected = test[KEY_EXPECTED]
             self.assertEqual(testing, expected[KEY_ANSWER])
-    def parse_message_failure(self):
+    def test_parse_message_failure(self):
         """failure tests"""
         for test in self.failure_test_params:
             testing = userLog()
