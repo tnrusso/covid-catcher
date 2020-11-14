@@ -12,7 +12,7 @@ Heroku link: [https://obscure-ocean-16087.herokuapp.com/](https://obscure-ocean-
 ### Madison
 - Created News API functions to get news articles using News-API
 - Created FAQ API funcctions to get FAQ from Coronavirus.gov
-- Created Location APi functions to get location of IPs using Ip-Stack
+- Created Location API functions to get location of IPs using Ip-Stack
 - Created Covid Stat API functions to get covid stats of certain states using corona.lmao.ninja
 - Created Covid Stat API functions to get covid stats of certain counties using corona.lmao.ninja
 - Created unit tests in api_unit_tests.py for all api function calls
