@@ -24,7 +24,7 @@ Heroku link: [https://obscure-ocean-16087.herokuapp.com/](https://obscure-ocean-
 
 ### Tim
 - Create navigation bar with links to the home, articles, faq, statistics and questionnaire page
-- Routing to direct users to different pages using the navigation bar
+- Routing to direct users to different pages when the user clicks a link on the navigation bar
 - Route user to a "does not exist" page when user redirects themself to an nonexistent page
 - Front end for FAQ page + CSS styling
 - Front end for Article page + CSS styling
