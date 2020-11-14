@@ -4,8 +4,10 @@ Heroku link: [https://obscure-ocean-16087.herokuapp.com/](https://obscure-ocean-
 
 # Individual Contributions
 ### Carlos
-- 
-- 
+- Created Database to store user information
+- Backend sockets for FAQ, Article, Login and Stats Page
+- Created unmocked tests for app.py
+- Used APIs defined by Madison, to send information to front end pages
 
 ### Madison
 - 
