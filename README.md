@@ -19,15 +19,16 @@ Heroku link: [https://obscure-ocean-16087.herokuapp.com/](https://obscure-ocean-
 
 ### Andrea
 - Front end for Login page 
-- Fron end for Statistics page
+- Front end for Statistics page
 - Helped with mocked tests for app.py
 
 ### Tim
-- Navigation bar
-- Routing to direct users to different pages
-- Front end for FAQ page
-- Front end for Article page
+- Create navigation bar with links to the home, articles, faq, statistics and questionnaire page
+- Routing to direct users to different pages using the navigation bar
+- Route user to a "does not exist" page when user redirects themself to an nonexistent page
+- Front end for FAQ page + CSS styling
+- Front end for Article page + CSS styling
 - Heroku deployment 
 
 # Pending work
--
+- None
