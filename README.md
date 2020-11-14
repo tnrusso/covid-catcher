@@ -17,8 +17,11 @@ Heroku link: [https://obscure-ocean-16087.herokuapp.com/](https://obscure-ocean-
 - Helped with mocked tests for app.py
 
 ### Tim
-- 
-- 
+- Navigation bar
+- Routing to direct users to different pages
+- Front end for FAQ page
+- Front end for Article page
+- Heroku deployment 
 
 # Pending work
 -
