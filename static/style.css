@@ -83,3 +83,8 @@ body {
 .login-h1 {
     margin: 2% -2%;
 }
+
+#select-state{
+    font-size: 14pt;
+    margin-left: 2%;
+}
