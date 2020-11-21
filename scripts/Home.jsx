@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { UsaStateMap } from './UsaStateMap';
 
 export function Home() {
   return (
@@ -61,6 +62,7 @@ export function Home() {
           </select>
         </form>
       </div>
+      <UsaStateMap />
     </div>
   );
 }
