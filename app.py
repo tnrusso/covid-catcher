@@ -88,12 +88,14 @@ def push_stat_data(state):
         county_deaths.append(x.deaths)
         county_rec.append(x.recovered)
         updated.append(x.updatedAt)
+        '''
         print(x.county)
         print(x.confirmed)
         print(x.deaths)
         print(x.recovered)
         print(x.updatedAt)
-    socketio.emit(STATISTICS, {'state': state, 'cases' : case, 'deaths' : death, 'recovered' : rec, 'county' : county_list, 'confirmed' : county_confirmed, 'countydeaths' : county_deaths, 'countyrecovered' : county_rec, 'updated' : updated})
+        '''
+    socketio.emit(STATISTICS, {'state': state, 'cases' : case, 'deaths' : death, 'recovered' : rec, 'countyNames' : county_list, 'countyStats' : county_confirmed, 'countydeaths' : county_deaths, 'countyrecovered' : county_rec, 'updated' : updated})
     r = "stats are pushed"
     return r
 
