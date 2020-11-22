@@ -7,14 +7,18 @@ def get_covid_stats_by_county(state,county):
     url = ('https://corona.lmao.ninja/v2/jhucsse/counties/' + county)
     response=requests.get(url)
     data = response.json()
+    counties = []
     for res in data:
         if res["province"]==state:
+            county1 = res['county']
             updatedAt = res['updatedAt']
             stats = res['stats']
             confirmed = stats['confirmed']
             deaths = stats['deaths']
             recovered = stats['recovered']
-            return CountyStats(state,county,updatedAt,confirmed,deaths,recovered)
+            counties.append(CountyStats(state,county1,updatedAt,confirmed,deaths,recovered))
+            #return CountyStats(state,county,updatedAt,confirmed,deaths,recovered)
+    return counties
 def get_covid_stats_by_state(state):
     """API Call for state stats"""
     url = ('https://corona.lmao.ninja/v2/states/'+ state +'?yesterday=')

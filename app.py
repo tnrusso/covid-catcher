@@ -11,6 +11,7 @@ import flask_socketio
 import requests
 from dotenv import load_dotenv
 from covid import get_covid_stats_by_state
+from covid import get_covid_stats_by_county
 from faq import get_all_questions
 from faq import FAQ
 import news
@@ -74,9 +75,25 @@ def push_stat_data(state):
     case = information.cases
     death = information.deaths
     rec = information.recovered
-
+    county_list = []
+    county_confirmed = []
+    county_deaths = []
+    county_rec = []
+    updated = []
     print("CASES DEATHS AND RECOVERED: ",case, death, rec)
-    socketio.emit(STATISTICS, {'cases' : case, 'deaths' : death, 'recovered' : rec})
+    allcounty = get_covid_stats_by_county(state,'')
+    for x in allcounty:
+        county_list.append(x.county)
+        county_confirmed.append(x.confirmed)
+        county_deaths.append(x.deaths)
+        county_rec.append(x.recovered)
+        updated.append(x.updatedAt)
+        print(x.county)
+        print(x.confirmed)
+        print(x.deaths)
+        print(x.recovered)
+        print(x.updatedAt)
+    socketio.emit(STATISTICS, {'state': state, 'cases' : case, 'deaths' : death, 'recovered' : rec, 'county' : county_list, 'confirmed' : county_confirmed, 'countydeaths' : county_deaths, 'countyrecovered' : county_rec, 'updated' : updated})
     r = "stats are pushed"
     return r
 
