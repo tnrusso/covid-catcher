@@ -83,3 +83,21 @@ body {
 .login-h1 {
     margin: 2% -2%;
 }
+
+#select-state{
+    font-size: 14pt;
+    margin-left: 2%;
+}
+
+.state-map {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    margin-bottom: 50px;
+}
+
+
+path:hover {
+    opacity: 0.75;
+}

@@ -10,20 +10,25 @@ Heroku link: [https://obscure-ocean-16087.herokuapp.com/](https://obscure-ocean-
 - Used APIs defined by Madison, to send information to front end pages
 
 ### Madison
-- 
-- 
+- Created News API functions to get news articles using News-API
+- Created FAQ API funcctions to get FAQ from Coronavirus.gov
+- Created Location API functions to get location of IPs using Ip-Stack
+- Created Covid Stat API functions to get covid stats of certain states using corona.lmao.ninja
+- Created Covid Stat API functions to get covid stats of certain counties using corona.lmao.ninja
+- Created unit tests in api_unit_tests.py for all api function calls
 
 ### Andrea
 - Front end for Login page 
-- Fron end for Statistics page
+- Front end for Statistics page
 - Helped with mocked tests for app.py
 
 ### Tim
-- Navigation bar
-- Routing to direct users to different pages
-- Front end for FAQ page
-- Front end for Article page
+- Create navigation bar with links to the home, articles, faq, statistics and questionnaire page
+- Routing to direct users to different pages when the user clicks a link on the navigation bar
+- Route user to a "does not exist" page when user redirects themself to an nonexistent page
+- Front end for FAQ page + CSS styling
+- Front end for Article page + CSS styling
 - Heroku deployment 
 
 # Pending work
--
+- None
