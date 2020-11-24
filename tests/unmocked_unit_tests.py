@@ -2,6 +2,7 @@
 """Unmocked Unit Test for app.py"""
 import unittest
 import sys
+import os
 from os.path import join, dirname
 from app import push_new_user_to_db
 from app import on_new_google_user

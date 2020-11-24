@@ -3,6 +3,7 @@
 import sys
 import unittest.mock as mock
 import unittest
+import os
 from os.path import join, dirname
 from app import faqList
 from app import push_stat_data
