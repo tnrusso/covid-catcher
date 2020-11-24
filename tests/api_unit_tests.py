@@ -4,6 +4,10 @@ import unittest.mock as mock
 import json
 import sys
 import os
+import faq
+import covid
+import news
+import location
 from faq import get_all_questions
 from faq import FAQ
 from news import get_news, Article
