@@ -3,11 +3,13 @@
 import sys
 import unittest.mock as mock
 import unittest
+import os
 from os.path import join, dirname
+sys.path.append(join(dirname(__file__), "../"))
 from app import faqList
 from app import push_stat_data
 from app import articleList
-sys.path.insert(1, join(dirname(__file__), "../"))
+
 EXPECTED = "expected"
 INPUT = "input"
 

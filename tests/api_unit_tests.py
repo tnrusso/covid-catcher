@@ -4,6 +4,8 @@ import unittest.mock as mock
 import json
 import sys
 import os
+from os.path import dirname, join
+sys.path.append(join(dirname(__file__), "../"))
 from faq import get_all_questions
 from faq import FAQ
 from news import get_news, Article
@@ -13,7 +15,7 @@ from covid import get_covid_stats_by_county
 from covid import CountyStats
 from covid import get_covid_stats_by_state
 from covid import StateStats
-sys.path.append('../')
+
 class MockResponse:
     """Mock Response Class"""
     def __init__(self, json_data, status_code):
@@ -130,6 +132,7 @@ def mock_county_covid_request_one(url):
     """Mock Test For Covid.py county"""
     data= [{
         "province":"New York",
+        "county":"Passaic",
         "updatedAt":"11/11/2020",
         "stats": {
             "confirmed":566,
@@ -138,6 +141,7 @@ def mock_county_covid_request_one(url):
         }
         },{
         "province":"New Jersey",
+        "county":"Passaic",
         "updatedAt":"11/11/2020",
         "stats": {
             "confirmed":566,
@@ -253,17 +257,20 @@ class api_unit_tests(unittest.TestCase):
             self.assertEqual(stats.recovered,EXPECTED_RESULT.recovered)
             self.assertEqual(stats.tests,EXPECTED_RESULT.tests)
             self.assertEqual(stats.testsPerPerMillion,EXPECTED_RESULT.testsPerPerMillion)
+    
     def test_get_covid_stats_by_county_one(self):
         """Testing Covid.py county"""
         EXPECTED_RESULT=CountyStats("New Jersey","Passaic","11/11/2020",566,34563,3455)
         with mock.patch("requests.get", mock_county_covid_request_one):
-            stats = get_covid_stats_by_county("New Jersey","Passaic")
+            counties = get_covid_stats_by_county("New Jersey","Passaic")
+            stats = counties[0]
             self.assertEqual(stats.state,EXPECTED_RESULT.state)
             self.assertEqual(stats.county,EXPECTED_RESULT.county)
             self.assertEqual(stats.updatedAt,EXPECTED_RESULT.updatedAt)
             self.assertEqual(stats.confirmed,EXPECTED_RESULT.confirmed)
             self.assertEqual(stats.deaths,EXPECTED_RESULT.deaths)
             self.assertEqual(stats.recovered,EXPECTED_RESULT.recovered)
+    
 if __name__ == '__main__':
     unittest.main()
     

@@ -101,3 +101,9 @@ body {
 path:hover {
     opacity: 0.75;
 }
+
+#chart{
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
