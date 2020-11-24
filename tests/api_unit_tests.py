@@ -4,10 +4,8 @@ import unittest.mock as mock
 import json
 import sys
 import os
-import faq
-import covid
-import news
-import location
+from os.path import dirname, join
+sys.path.append(join(dirname(__file__), "../"))
 from faq import get_all_questions
 from faq import FAQ
 from news import get_news, Article
@@ -17,7 +15,7 @@ from covid import get_covid_stats_by_county
 from covid import CountyStats
 from covid import get_covid_stats_by_state
 from covid import StateStats
-sys.path.append('../')
+
 class MockResponse:
     """Mock Response Class"""
     def __init__(self, json_data, status_code):
