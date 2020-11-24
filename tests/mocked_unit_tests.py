@@ -7,7 +7,7 @@ from os.path import join, dirname
 from app import faqList
 from app import push_stat_data
 from app import articleList
-sys.path.insert(1, join(dirname(__file__), "../"))
+sys.path.append(join(dirname(__file__), "../"))
 EXPECTED = "expected"
 INPUT = "input"
 

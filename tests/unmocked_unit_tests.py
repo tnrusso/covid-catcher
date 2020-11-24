@@ -8,7 +8,7 @@ from app import on_new_google_user
 from app import emit_all_users
 from app import userLog
 import models
-sys.path.insert(1, join(dirname(__file__), "../"))
+sys.path.append(join(dirname(__file__), "../"))
 
 
 KEY_INPUT = 'input'
