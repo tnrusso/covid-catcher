@@ -7,6 +7,7 @@ import { Articles } from './Articles';
 import { NotExist } from './NotExist';
 import { Login } from './Login';
 import { Stats } from './Stats';
+import { Quest } from './Quest';
 
 export function Content() {
   return (
@@ -28,7 +29,7 @@ export function Content() {
             <Stats />
           </Route>
           <Route exact path="/questionnaire">
-            <Login />
+            <Quest />
           </Route>
           <Route path="*">
             <NotExist />
