@@ -45,7 +45,7 @@
     "recharts": "^1.8.5",
     "socket.io-client": "^2.3.1",
     "survey-creator": "^1.8.16",
-    "survey-react": "^1.8.16"
+    "survey-react": "^1.8.17"
   },
   "name": "project3-sec3group4",
   "description": "![alt text](https://github.com/NJIT-CS490/project3-sec3group4/blob/master/static/covid_catcher.png?raw=true)",
