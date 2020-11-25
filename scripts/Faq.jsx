@@ -19,7 +19,7 @@ export function Faq() {
   
   function getQuestions(c) {
     if(category == c) {
-      c=''
+      c='';
     }
     setCategory(c);
     Socket.emit('faq questions', c);
@@ -38,25 +38,27 @@ export function Faq() {
     <div id="faq-div">
       <h1 className="faq-h1">Frequently Asked Questions</h1>
       
-      <ul className="faq-category-list">
-      
-        {(categories||[]).map((cat, index) => (
-          <li key={index} id={cat}>
-            <button onClick={(e)=>getQuestions(cat)}>{cat}</button>
-            {cat == category &&
-              <ul className="faq-ul">
+      <div className="faq-frame">
+        <ul className="faq-category-list">
         
-                {questions.map((faq, index) => (
-                  <li key={index}>
-                    <p className="faq-question">{faq.question}</p>
-                    <p className="faq-answer">{faq.answer}</p>
-                  </li>
-                ))}
-              </ul>
-            }
-          </li>
-        ))}
-      </ul>
+          {(categories||[]).map((cat, index) => (
+            <li key={index} id={cat}>
+              <button className="faq-category-button" onClick={(e)=>getQuestions(cat)}><b>{cat}</b></button>
+              {cat == category &&
+                <ul className="faq-ul">
+          
+                  {questions.map((faq, index) => (
+                    <li key={index}>
+                      <p className="faq-question">{faq.question}</p>
+                      <p className="faq-answer">{faq.answer}</p>
+                    </li>
+                  ))}
+                </ul>
+              }
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
