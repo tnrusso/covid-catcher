@@ -13,6 +13,7 @@ from dotenv import load_dotenv
 from covid import get_covid_stats_by_state
 from covid import get_covid_stats_by_county
 from faq import get_all_questions
+from faq import get_all_categories
 from faq import FAQ
 import news
 from news import get_news
@@ -34,7 +35,7 @@ db.session.commit()
 USERS_UPDATED_CHANNEL = "users updated"
 STATISTICS = "stats"
 NEWUSER = "new user"
-FAQS = "faq list"
+FAQS = "faq lists"
 ARTICLE = "article list"
 import models
 def emit_all_users(channel):
@@ -49,6 +50,31 @@ def on_new_google_user(data):
     push_new_user_to_db(data["name"], data["email"], data["pic"], data["room"])
     emit_all_users(USERS_UPDATED_CHANNEL)
     return USERS_UPDATED_CHANNEL
+
+@socketio.on("faq categories")
+def on_faq_categories():
+    """get all categories for faqs"""
+    categories=get_all_categories()
+    socketio.emit('faq category list', categories)
+
+@socketio.on("faq questions")
+def on_faq_questions(category):
+    """get questions and answers in a category"""
+    if category == '' or category== None:
+        faqs=get_all_questions()
+    else:
+        faqs=get_all_questions(category)
+        
+    response = []
+    for faq in faqs:
+        response.append({
+            'question':faq.question,
+            'answer': faq.answer,
+        })
+
+    socketio.emit('faq list', response)
+    
+
 
 def push_new_user_to_db(name, email, picture, room):
     """puts new user in the database"""
@@ -99,16 +125,6 @@ def push_stat_data(state):
     r = "stats are pushed"
     return r
 
-def faqList():
-    """Calls the FAQ API"""
-    faqs = get_all_questions()
-    question_list = []
-    answer_list = []
-    for item in faqs:
-        question_list.append(item.question)
-        answer_list.append(item.answer)
-    socketio.emit(FAQS,{'question': question_list, 'answer': answer_list } )
-    return True
 def articleList():
     """Calls the Article API"""
     articles = get_news(5, since = news.YESTERDAY.strftime("%yyyy-%mm-%dd"),  query = 'covid')
@@ -129,7 +145,6 @@ def articleList():
 @socketio.on("connect")
 def on_connect():
     """Socket for when user connects"""
-    faqList()
     articleList()
     ip = request.environ['HTTP_X_FORWARDED_FOR']
     loc = get_location(ip)
