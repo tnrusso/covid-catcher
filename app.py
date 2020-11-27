@@ -88,7 +88,14 @@ def push_new_user_to_db(name, email, picture, room):
     userLog()
     emit_all_users(USERS_UPDATED_CHANNEL)
     return name
-
+from covid import get_covid_stats_for_all_states
+def get_state_colors():
+    state_colors = []
+    for i in get_covid_stats_for_all_states():
+        state_colors.append(i.color)
+    socketio.emit('colors', {
+        'colors': state_colors
+    })
 def userLog():
     """User Login Check"""
     if login == 1:
@@ -105,6 +112,7 @@ def on_connect():
     """Socket for when user connects"""
     articleList(socketio)
     global state
+    get_state_colors()
     if state != "":
         push_stat_data(socketio, state)
     return True
