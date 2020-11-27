@@ -28,6 +28,7 @@ load_dotenv(dotenv_path)
 database_uri = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
 login=0
+state = ""
 db = flask_sqlalchemy.SQLAlchemy(app)
 db.init_app(app)
 db.app = app
@@ -94,15 +95,19 @@ def userLog():
     if login == 1:
         socketio.emit(NEWUSER,{'login' : 1})
     return True
-
+@socketio.on("search loc")
+def search_loc(data):
+    global state
+    state = data["loc"]
+    push_stat_data(socketio, data["loc"])
+    socketio.emit("redirect", {"url": data["loc"]})
 @socketio.on("connect")
 def on_connect():
     """Socket for when user connects"""
     articleList(socketio)
-    ip = request.environ['HTTP_X_FORWARDED_FOR']
-    loc = get_location(ip)
-    state = loc.state
-    push_stat_data(socketio, state)
+    global state
+    if state != "":
+        push_stat_data(socketio, state)
     return True
 
 @app.route("/")

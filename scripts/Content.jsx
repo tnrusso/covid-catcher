@@ -5,11 +5,17 @@ import { Home } from './Home';
 import { Faq } from './Faq';
 import { Articles } from './Articles';
 import { NotExist } from './NotExist';
-import { Login } from './Login';
 import { Stats } from './Stats';
 import { Quest } from './Quest';
+import { Socket } from './Socket';
 
 export function Content() {
+  React.useEffect(() => {
+    Socket.on('redirect', (data) => {
+      window.location.replace('/statistics');
+    });
+  });
+
   return (
     <div>
       <Navigation />
