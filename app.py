@@ -20,7 +20,6 @@ import news
 from news import get_news
 import location
 from location import get_location
-from app_functions import articleList, push_stat_data
 app = flask.Flask(__name__)
 socketio = flask_socketio.SocketIO(app)
 socketio.init_app(app, cors_allowed_origins="*")
@@ -28,7 +27,7 @@ dotenv_path = join(dirname(__file__), "sql.env")
 load_dotenv(dotenv_path)
 database_uri = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
-login=0
+login = 0
 state = ""
 db = flask_sqlalchemy.SQLAlchemy(app)
 db.init_app(app)
@@ -45,6 +44,40 @@ def emit_all_users(channel):
     all_users = [user.name for user in db.session.query(models.User1).all()]
     socketio.emit(channel, {"allUsers": all_users})
     return channel
+
+def push_stat_data(state):
+    """Calls Covid API"""
+    information = get_covid_stats_by_state(state)
+    case = information.cases
+    death = information.deaths
+    rec = information.recovered
+    county_list = []
+    county_confirmed = []
+    county_deaths = []
+    county_rec = []
+    updated = []
+    print("CASES DEATHS AND RECOVERED: ", case, death, rec)
+    allcounty = get_covid_stats_by_county(state, '')
+    for x in allcounty:
+        county_list.append(x.county)
+        county_confirmed.append(x.confirmed)
+        county_deaths.append(x.deaths)
+        county_rec.append(x.recovered)
+        updated.append(x.updatedAt)
+        '''
+        print(x.county)
+        print(x.confirmed)
+        print(x.deaths)
+        print(x.recovered)
+        print(x.updatedAt)
+        '''
+    socketio.emit(STATISTICS, {'state': state, 'cases' : case, 'deaths' : death,
+                               'recovered' : rec, 'countyNames' : county_list,
+                               'countyStats' : county_confirmed, 'countydeaths' : county_deaths,
+                               'countyrecovered' : county_rec, 'updated' : updated})
+    r = "stats are pushed"
+    return r
+
 @socketio.on("new google user")
 def on_new_google_user(data):
     """new user when log in"""
@@ -56,26 +89,24 @@ def on_new_google_user(data):
 @socketio.on("faq categories")
 def on_faq_categories():
     """get all categories for faqs"""
-    categories=get_all_categories()
+    categories = get_all_categories()
     socketio.emit('faq category list', categories)
 
 @socketio.on("faq questions")
 def on_faq_questions(category):
     """get questions and answers in a category"""
-    if category == '' or category== None:
-        faqs=get_all_questions()
+    if category == '' or category == None:
+        faqs = get_all_questions()
     else:
-        faqs=get_all_questions(category)
-        
+        faqs = get_all_questions(category)
     response = []
     for faq in faqs:
         response.append({
             'question':faq.question,
             'answer': faq.answer,
         })
-
     socketio.emit('faq list', response)
-    
+
 def push_new_user_to_db(name, email, picture, room):
     """puts new user in the database"""
     global login
@@ -100,22 +131,40 @@ def get_state_colors():
 def userLog():
     """User Login Check"""
     if login == 1:
-        socketio.emit(NEWUSER,{'login' : 1})
+        socketio.emit(NEWUSER, {'login' : 1})
     return True
 @socketio.on("search loc")
 def search_loc(data):
     global state
     state = data["loc"]
-    push_stat_data(socketio, data["loc"])
+    push_stat_data(data["loc"])
     socketio.emit("redirect", {"url": data["loc"]})
 @socketio.on("connect")
 def on_connect():
     """Socket for when user connects"""
-    articleList(socketio)
+    articleList()
     global state
     get_state_colors()
     if state != "":
-        push_stat_data(socketio, state)
+        push_stat_data(state)
+    return True
+
+def articleList():
+    """Calls the Article API"""
+    articles = get_news(5, since=news.YESTERDAY.strftime("%yyyy-%mm-%dd"), query='covid')
+    title_list = []
+    desc_list = []
+    url_list = []
+    image_list = []
+    source_list = []
+    for art in articles:
+        image_list.append(art.image)
+        title_list.append(art.title)
+        source_list.append(art.source)
+        desc_list.append(art.description)
+        url_list.append(art.url)
+    socketio.emit(ARTICLE, {'title': title_list, 'desc':desc_list, 'url':url_list,
+                            'img': image_list, 'sources': source_list})
     return True
 
 @app.route("/")

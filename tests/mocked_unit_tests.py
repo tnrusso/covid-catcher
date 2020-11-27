@@ -9,8 +9,7 @@ import unittest.mock as mock
 import unittest
 from os.path import join, dirname
 sys.path.append(join(dirname(__file__), "../"))
-from app_functions import push_stat_data, articleList
-from app import push_new_user_to_db, userLog, emit_all_users, on_new_google_user
+from app import push_new_user_to_db, userLog, emit_all_users, on_new_google_user, push_stat_data, articleList
 
 EXPECTED = "expected"
 INPUT = "input"
@@ -122,13 +121,13 @@ class PushStatDataTest(unittest.TestCase):
         """ mocked get_covid stats() """
         information = MockedInfo()
         return information
-
-    def test_push_stat_success(self):
+    
+    @mock.patch("app.socketio")
+    def test_push_stat_success(self, MockedSocketio):
         """ success test """
         for test in self.push_stat_params:
             with mock.patch('covid.get_covid_stats_by_state', self.mocked_get_covid_stats):
-                socketio = MockedSocketio()
-                result = push_stat_data(socketio, test[INPUT])
+                result = push_stat_data(test[INPUT])
                 expected = test[EXPECTED]
                 self.assertEqual(expected, result)
 
@@ -147,12 +146,12 @@ class ArticleListTest(unittest.TestCase):
         articles = MockedArticles()
         return articles
 
-    def test_article_list_success(self):
+    @mock.patch("app.socketio")
+    def test_article_list_success(self, MockedSocketio):
         """ success test """
         for test in self.article_params:
             with mock.patch('news.get_news', self.mocked_get_news):
-                socketio = MockedSocketio()
-                result = articleList(socketio)
+                result = articleList()
                 expected = test[EXPECTED]
                 self.assertEqual(expected, result)
 
