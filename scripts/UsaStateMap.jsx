@@ -172,8 +172,22 @@ export function UsaStateMap() {
   statesCustomConfig();
 
   return (
+    <div className="map">
     <div className="state-map">
       <USAMap customize={statesCustomConfig()} />
+    </div>
+    <div className="map-legend">
+        <p className="map-legend-color"><span className="color-4000">▬</span>  4000 +</p>
+        <p className="map-legend-color"><span className="color-3500">▬</span>  3500 - 3999</p>
+        <p className="map-legend-color"><span className="color-3000">▬</span>  3000 - 3499</p>
+        <p className="map-legend-color"><span className="color-2500">▬</span>  2500 - 2999</p>
+        <p className="map-legend-color"><span className="color-2000">▬</span>  2000 - 2499</p>
+        <p className="map-legend-color"><span className="color-1500">▬</span>  1500 - 1999</p>
+        <p className="map-legend-color"><span className="color-1000">▬</span>  1000 - 1499</p>
+        <p className="map-legend-color"><span className="color-500">▬</span>  500 - 999</p>
+        <p className="map-legend-color"><span className="color-100">▬</span>  100 - 499</p>
+        <p className="map-legend-color"><span className="color-0">▬</span>  0 - 99</p>
+    </div>
     </div>
   );
 }

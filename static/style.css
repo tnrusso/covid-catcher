@@ -71,15 +71,12 @@ body {
     margin-left: 2%;
 }
 
-.state-map {
-    display: block;
+.map {
+    display: flex;
+    justify-content: center;
     margin-left: auto;
     margin-right: auto;
-    width: 50%;
-    margin-bottom: 50px;
 }
-
-
 path:hover {
     opacity: 0.75;
 }
@@ -143,4 +140,38 @@ path:hover {
 #select-state {
     position: absolute;
     right: 2.2%;
+}
+
+.map-legend-color {
+    font-size: 24pt;
+}
+.color-4000 {
+    color: #820000;
+}
+.color-3500 {
+    color: #8F1C1C;
+}
+.color-3000 {
+    color: #9D3838;
+}
+.color-2500 {
+    color: #AB5555;
+}
+.color-2000 {
+    color: #B97171;
+}
+.color-1500 {
+    color: #C78D8D;
+}
+.color-1000 {
+    color: #D5AAAA;
+}
+.color-500 {
+    color: #E3C6C6;
+}
+.color-100 {
+    color: #F1E2E2;
+}
+.color-0 {
+    color: #FFFFFF;
 }
