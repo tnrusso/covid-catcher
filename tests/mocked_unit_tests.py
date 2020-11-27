@@ -1,14 +1,16 @@
-#unmocked_unit_tests.py
+#pylint: disable=R0903 
+#pylint: disable=W0613
+#pylint: disable=W0621
+#pylint: disable=C0103
+#mocked_unit_tests.py
 """Mocked Unit Test for app.py"""
 import sys
 import unittest.mock as mock
 import unittest
-import os
 from os.path import join, dirname
-sys.path.append(join(dirname(__file__), "../"))
-from app_functions import push_stat_data
-from app_functions import articleList
+from app_functions import push_stat_data, articleList
 from app import push_new_user_to_db, userLog, emit_all_users, on_new_google_user
+sys.path.append(join(dirname(__file__), "../"))
 
 EXPECTED = "expected"
 INPUT = "input"
@@ -43,13 +45,16 @@ class MockedDBQuery:
     def __init__(self, models=""):
         self.models = MockedDBModel()
     def all(self):
+        """ mocks all method"""
         return True
 
 class MockedDBModel:
+    """"This class defines a mocked db model object"""
     def __init__(self, user1=""):
         self.user1 = user1
 
 class MockedBDUser1:
+    """ This class defines a mocked db user object"""
     def __init__(self, name="", email="", picture="", room=""):
         self.name = name
         self.email = email
@@ -58,7 +63,8 @@ class MockedBDUser1:
 
 class MockedSocketio:
     """ This class defines a mocked socketio object """
-    def emit(self, x, y):
+    def emit(self, arg_x, arg_y):
+        """This mocks the emit method"""
         return True
 
 class MockedInfo:
@@ -74,7 +80,7 @@ class MockedArticles:
         self.image = "image"
         self.title = "title"
         self.source = "source"
-        self.description= "description"
+        self.description = "description"
         self.url = "url"
 
 '''
@@ -100,7 +106,6 @@ class FaqListTest(unittest.TestCase):
                 result = faqList()
                 expected = test[EXPECTED]
                 self.assertEqual(expected, result)
-
 '''
 class PushStatDataTest(unittest.TestCase):
     """ This class contains the tests and paramaters to test """
@@ -126,8 +131,6 @@ class PushStatDataTest(unittest.TestCase):
                 result = push_stat_data(socketio, test[INPUT])
                 expected = test[EXPECTED]
                 self.assertEqual(expected, result)
-
-
 
 class ArticleListTest(unittest.TestCase):
     """ This class contains the tests and paramaters to test """
@@ -157,21 +160,25 @@ class EmitTest(unittest.TestCase):
     """unit test for emit_all_users"""
     def setUp(self):
         self.success_test_params = [
-             {
-                INPUT: {
+            {
+                INPUT:
+                {
                     MESSAGE:"users updated"
                 },
-                EXPECTED: {
+                EXPECTED:
+                {
                     ANSWER: "users updated",
-                    }
+                }
             }
         ]
         self.failure_test_params = [
-             {
-                INPUT: {
+            {
+                INPUT:
+                {
                     MESSAGE:"users updated"
                 },
-                EXPECTED: {
+                EXPECTED:
+                {
                     ANSWER: "",
                 }
             }
@@ -186,7 +193,7 @@ class EmitTest(unittest.TestCase):
             testing = emit_all_users(response[MESSAGE])
             expected = test[EXPECTED]
             self.assertEqual(testing, expected[ANSWER])
-    
+
     @mock.patch("app.socketio")
     @mock.patch("app.db")
     def test_parse_message_failure(self, MockedSocketio, MockedDB):
@@ -201,17 +208,20 @@ class DbTest(unittest.TestCase):
     """unit test for push_new_user_to_db"""
     def setUp(self):
         self.success_test_params = [
-             {
-                INPUT: {
+            {
+                INPUT:
+                {
                     NAME: "Carl",
                     EMAIL: "cs2950742@gmail.com",
                     PIC: "https://lh3.googleusercontent.com/a-/AOh14GhgqbOOswIBxGPgEfyJd6bUHBhdIq0p-XpqKoT9=s96-c",
                     ROOM: "0e841f9b1f3449088cac2bbcfc301314"
                 },
-                EXPECTED: {
+                EXPECTED:
+                {
                     ANSWER: "Carl",
                 },
-                INPUT: {
+                INPUT:
+                {
                     NAME: "New1user",
                     EMAIL: "New123user@gmail.com",
                     PIC: "N/A",
@@ -223,58 +233,61 @@ class DbTest(unittest.TestCase):
             }
         ]
         self.failure_test_params = [
-             {
-                INPUT: {
+            {
+                INPUT:
+                {
                     NAME: "Carl",
                     EMAIL: "cs2950742@gmail.com",
                     PIC: "N/A",
                     ROOM: "N/A"
                 },
-                EXPECTED: {
+                EXPECTED:
+                {
                     ANSWER: "",
                 }
             }
         ]
-    
+
     @mock.patch('app.db')
     def test_parse_message_success(self, MockedDB):
         """success tests"""
         for test in self.success_test_params:
             response = test[INPUT]
-            testing = push_new_user_to_db(response[NAME],response[EMAIL], response[PIC], response[ROOM])
+            testing = push_new_user_to_db(response[NAME], response[EMAIL], response[PIC], response[ROOM])
             expected = test[EXPECTED]
             self.assertEqual(testing, expected[ANSWER])
-    
+
     @mock.patch('app.db')
     def test_parse_message_failure(self, MockedDB):
         """failure tests"""
         for test in self.failure_test_params:
             response = test[INPUT]
-            testing = push_new_user_to_db(response[NAME],response[EMAIL], response[PIC], response[ROOM])
+            testing = push_new_user_to_db(response[NAME], response[EMAIL], response[PIC], response[ROOM])
             expected = test[EXPECTED]
             self.assertNotEqual(testing, expected[ANSWER])
-            
 
 class LoginTest(unittest.TestCase):
     """unit test for userLog"""
     def setUp(self):
         self.success_test_params = [
-             {
+            {
                 INPUT: {},
-                EXPECTED: {
+                EXPECTED:
+                {
                     ANSWER: 1,
-                    }
+                }
             }
         ]
         self.failure_test_params = [
-             {
+            {
                 INPUT: {},
-                EXPECTED: {
+                EXPECTED:
+                {
                     ANSWER: 0,
-                    }
+                }
             }
         ]
-    
+
     @mock.patch("app.socketio")
     def test_parse_message_success(self, MockedSocketio):
         """success tests"""
@@ -282,7 +295,7 @@ class LoginTest(unittest.TestCase):
             testing = userLog()
             expected = test[EXPECTED]
             self.assertEqual(testing, expected[ANSWER])
-    
+
     @mock.patch("app.socketio")
     def test_parse_message_failure(self, MockedSocketio):
         """failure tests"""
@@ -295,31 +308,36 @@ class NewTest(unittest.TestCase):
     """unit test for on_new_google_user"""
     def setUp(self):
         self.success_test_params = [
-             {
-                INPUT: {
-                    NAME:"Carl",
-                    EMAIL: "cs2950742@gmail.com",
-                    PIC: "https://lh3.googleusercontent.com/a-/AOh14GhgqbOOswIBxGPgEfyJd6bUHBhdIq0p-XpqKoT9=s96-c",
-                    ROOM: "0e841f9b1f3449088cac2bbcfc301314"
-                    },
-                EXPECTED: {
-                    ANSWER: "users updated",
-                    }
-            }
-        ]
-        self.failure_test_params = [
-             {
-                INPUT: {
+            {
+                INPUT:
+                {
                     NAME:"Carl",
                     EMAIL: "cs2950742@gmail.com",
                     PIC: "https://lh3.googleusercontent.com/a-/AOh14GhgqbOOswIBxGPgEfyJd6bUHBhdIq0p-XpqKoT9=s96-c",
                     ROOM: "0e841f9b1f3449088cac2bbcfc301314"
                 },
-                EXPECTED: {
-                    ANSWER: "",
-                    }
+                EXPECTED:
+                {
+                    ANSWER: "users updated",
+                }
             }
         ]
+        self.failure_test_params = [
+            {
+                INPUT:
+                {
+                    NAME:"Carl",
+                    EMAIL: "cs2950742@gmail.com",
+                    PIC: "https://lh3.googleusercontent.com/a-/AOh14GhgqbOOswIBxGPgEfyJd6bUHBhdIq0p-XpqKoT9=s96-c",
+                    ROOM: "0e841f9b1f3449088cac2bbcfc301314"
+                },
+                EXPECTED:
+                {
+                    ANSWER: "",
+                }
+            }
+        ]
+
     @mock.patch("app.socketio")
     @mock.patch("app.db")
     def test_parse_message_success(self, MockedSocketio, MockedDB):
@@ -329,6 +347,7 @@ class NewTest(unittest.TestCase):
             testing = on_new_google_user(response)
             expected = test[EXPECTED]
             self.assertEqual(testing, expected[ANSWER])
+
     @mock.patch("app.socketio")
     @mock.patch("app.db")
     def test_parse_message_failure(self, MockedSocketio, MockedDB):
