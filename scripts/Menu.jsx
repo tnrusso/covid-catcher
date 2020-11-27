@@ -21,6 +21,7 @@ export function Menu() {
 
   return (
     <div id="select-state">
+      <h2>State Statistics</h2>
       <form className="menu" onSubmit={handleSubmit}>
         <select id="states" name="state" onChange={handleChange}>
           <option value=""> </option>
@@ -75,7 +76,7 @@ export function Menu() {
           <option value="Wisconsin">Wisconsin</option>
           <option value="Wyoming">Wyoming</option>
         </select>
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Search" className="submit-button"/>
       </form>
     </div>
   );
