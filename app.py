@@ -12,6 +12,7 @@ import requests
 from dotenv import load_dotenv
 from covid import get_covid_stats_by_state
 from covid import get_covid_stats_by_county
+from covid import get_covid_stats_for_all_states
 from faq import get_all_questions
 from faq import get_all_categories
 from faq import FAQ
@@ -88,7 +89,7 @@ def push_new_user_to_db(name, email, picture, room):
     userLog()
     emit_all_users(USERS_UPDATED_CHANNEL)
     return name
-from covid import get_covid_stats_for_all_states
+
 def get_state_colors():
     state_colors = []
     for i in get_covid_stats_for_all_states():
