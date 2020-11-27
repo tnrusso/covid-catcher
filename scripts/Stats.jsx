@@ -27,6 +27,10 @@ export function Stats() {
       return () => Socket.off('stats');
     });
   }
+  
+  function handleClick() {
+    
+  }
 
   getStats();
   countyNames.map((item, index) => (chartData.push({ county: item, cases: countyStats[index] })));
@@ -47,17 +51,19 @@ export function Stats() {
 
       <div id="chart">
         <BarChart
-          width={900}
-          height={400}
+          width={1000}
+          height={800}
           data={chartData}
+          layout="vertical"
+          margin={{top: 5, right: 10, left: 50, bottom: 5}}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="county" />
-          <YAxis />
+          <XAxis type="number"/>
+          <YAxis dataKey="county" type="category"/>
           <Tooltip />
           <Legend verticalAlign="top" wrapperStyle={{ lineHeight: '40px' }} />
-          <ReferenceLine y={0} stroke="#000" />
-          <Bar dataKey="cases" fill="#82ca9d" />
+          <ReferenceLine x={0} stroke="#000" />
+          <Bar dataKey="cases" fill="#82ca9d" onclick={handleClick}/>
         </BarChart>
       </div>
     </div>

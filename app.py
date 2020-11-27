@@ -32,8 +32,7 @@ state = ""
 db = flask_sqlalchemy.SQLAlchemy(app)
 db.init_app(app)
 db.app = app
-db.create_all()
-db.session.commit()
+
 USERS_UPDATED_CHANNEL = "users updated"
 STATISTICS = "stats"
 NEWUSER = "new user"
@@ -113,6 +112,8 @@ def on_connect():
 @app.route("/")
 def index():
     """loads page"""
+    models.db.create_all()
+    db.session.commit()
     return flask.render_template("index.html")
 
 
