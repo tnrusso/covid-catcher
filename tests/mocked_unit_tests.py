@@ -8,9 +8,9 @@ import sys
 import unittest.mock as mock
 import unittest
 from os.path import join, dirname
+sys.path.append(join(dirname(__file__), "../"))
 from app_functions import push_stat_data, articleList
 from app import push_new_user_to_db, userLog, emit_all_users, on_new_google_user
-sys.path.append(join(dirname(__file__), "../"))
 
 EXPECTED = "expected"
 INPUT = "input"
