@@ -1,22 +1,21 @@
 import * as React from 'react';
 import { Socket } from './Socket';
+import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-router-dom';
 
 export function Menu() {
   const [state, setState] = React.useState('');
 
   function handleChange(e) {
     e.preventDefault();
-    setState(e.target.value);
+    if(e.target.value != ""){
+      Socket.emit('search loc', {
+        loc: e.target.value,
+      });
+    }
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (state !== '') {
-      Socket.emit('search loc', {
-        loc: state,
-      });
-    }
-    setState('');
   }
 
   return (
@@ -76,7 +75,9 @@ export function Menu() {
           <option value="Wisconsin">Wisconsin</option>
           <option value="Wyoming">Wyoming</option>
         </select>
-        <input type="submit" value="Search" className="submit-button"/>
+        <Link to={"/statistics/"}>
+          <input type="submit" onSubmit={handleSubmit} value="Search" className="submit-button"/>
+        </Link>
       </form>
     </div>
   );

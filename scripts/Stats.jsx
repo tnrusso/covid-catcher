@@ -14,6 +14,15 @@ export function Stats() {
 
   const chartData = [];
 
+  function getState(){
+    React.useEffect(() => { 
+      Socket.on('state', (data) => {
+        console.log(data.loc);
+      });
+      return () => Socket.off('state');
+    });
+  }
+
   function getStats() {
     React.useEffect(() => {
       Socket.on('stats', (data) => {
@@ -31,7 +40,7 @@ export function Stats() {
   function handleClick() {
     
   }
-
+  getState();
   getStats();
   countyNames.map((item, index) => (chartData.push({ county: item, cases: countyStats[index] })));
 

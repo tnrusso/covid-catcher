@@ -10,11 +10,6 @@ import { Quest } from './Quest';
 import { Socket } from './Socket';
 
 export function Content() {
-  React.useEffect(() => {
-    Socket.on('redirect', (data) => {
-      window.location.replace('/statistics');
-    });
-  });
 
   return (
     <div>
