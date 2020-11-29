@@ -107,7 +107,9 @@ def mock_location_request_one(url):
         "region_code":"NJ",
         "region_name":"New Jersey",
         "city":"Newark",
-        "zip":"O7103"
+        "zip":"O7103",
+        "latitude":40.735657,
+        "longitude":-74.172363
     }
     return MockResponse(data,200)
 
@@ -232,7 +234,7 @@ class api_unit_tests(unittest.TestCase):
             self.assertEqual(error['Error'], EXPETECTED_ERROR)
     def test_get_location_one(self):
         """Testing Location"""
-        EXPETECTED_RESULT=Location("US","United States","NJ","New Jersey","Newark","O7103")
+        EXPETECTED_RESULT=Location("US","United States","NJ","New Jersey","Newark","O7103",40.735657,-74.172363)
         with mock.patch("requests.get", mock_location_request_one):
             location = get_location("122.122.122.122")
             self.assertEqual(location.country_code,EXPETECTED_RESULT.country_code)
@@ -241,6 +243,8 @@ class api_unit_tests(unittest.TestCase):
             self.assertEqual(location.state,EXPETECTED_RESULT.state)
             self.assertEqual(location.city,EXPETECTED_RESULT.city)
             self.assertEqual(location.zipcode,EXPETECTED_RESULT.zipcode)
+            self.assertEqual(location.latitude,EXPETECTED_RESULT.latitude)
+            self.assertEqual(location.longitude,EXPETECTED_RESULT.longitude)
     def test_get_covid_stats_by_state_one(self):
         """Testing Covid.py states"""
         EXPECTED_RESULT=StateStats("New Jersey",2000,1000,677,100,566,34563,456,3455,45,6436)

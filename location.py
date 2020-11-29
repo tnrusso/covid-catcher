@@ -21,14 +21,18 @@ def get_location(ip):
     state = data['region_name']
     city = data['city']
     zipcode = data['zip']
-    return Location(country_code,country_name,state_code,state,city,zipcode)
+    latitude = data['latitude']
+    longitude = data['longitude']
+    return Location(country_code,country_name,state_code,state,city,zipcode,latitude,longitude)
 class Location:
     """Location Class"""
-    def __init__(self, country_code,country_name,state_code,state,city,zipcode):
+    def __init__(self, country_code,country_name,state_code,state,city,zipcode,latitude,longitude):
         self.country_code=country_code
         self.country_name=country_name
         self.state_code=state_code
         self.state=state
         self.city=city
         self.zipcode=zipcode
+        self.latitude=latitude
+        self.longitude=longitude
         

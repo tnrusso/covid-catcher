@@ -8,6 +8,7 @@ import { NotExist } from './NotExist';
 import { Stats } from './Stats';
 import { Quest } from './Quest';
 import { Socket } from './Socket';
+import {InfoMap} from './InfoMap';
 
 export function Content() {
 
@@ -31,6 +32,9 @@ export function Content() {
           </Route>
           <Route exact path="/questionnaire">
             <Quest />
+          </Route>
+          <Route exact path="/map">
+            <InfoMap />
           </Route>
           <Route path="*">
             <NotExist />

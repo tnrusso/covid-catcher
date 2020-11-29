@@ -15,6 +15,7 @@ export function Navigation() {
           <li><a href="/faq">FAQ</a></li>
           <li><a href="/questionnaire">Questionnaire</a></li>
           <li><a href="/about">About</a></li>
+          <li><a href="/map">Testing Sites</a></li>
         </ul>
       </div>
     </nav>

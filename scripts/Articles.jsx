@@ -7,6 +7,7 @@ export function Articles() {
   const [source, setSource] = React.useState([]);
   const [desc, setDesc] = React.useState([]);
   const [url, setUrl] = React.useState([]);
+  
 
   function getArticles() {
     React.useEffect(() => {
@@ -16,12 +17,12 @@ export function Articles() {
         setSource(data.sources);
         setDesc(data.desc);
         setUrl(data.url);
+        
       });
     });
   }
-
+  
   getArticles();
-
   return (
     <div id="article-div">
       <h1 className="article-h1">COVID-19 Articles</h1>
@@ -37,5 +38,6 @@ export function Articles() {
         ))}
       </ul>
     </div>
+   
   );
 }

@@ -20,12 +20,18 @@ import news
 from news import get_news
 import location
 from location import get_location
+import sites
+from sites import get_sites
+from sites import TestingSites
 app = flask.Flask(__name__)
 socketio = flask_socketio.SocketIO(app)
 socketio.init_app(app, cors_allowed_origins="*")
 dotenv_path = join(dirname(__file__), "sql.env")
 load_dotenv(dotenv_path)
+dotenv_path = join(dirname(__file__), "api-keys.env")
+load_dotenv(dotenv_path)
 database_uri = os.environ['DATABASE_URL']
+api_k = os.environ['MAP_API_KEY']
 app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
 login = 0
 state = ""
@@ -38,6 +44,7 @@ STATISTICS = "stats"
 NEWUSER = "new user"
 FAQS = "faq lists"
 ARTICLE = "article list"
+SITE = 'site page'
 import models
 def emit_all_users(channel):
     """emits all users"""
@@ -147,9 +154,40 @@ def on_connect():
     if state != "":
         push_stat_data(state)
     articleList()
+    test_location()
     get_state_colors()
     return True
-
+def test_location():
+    ip = request.environ['HTTP_X_FORWARDED_FOR']
+    loc = get_location(ip)
+    lat = loc.latitude
+    lng = loc.longitude
+    allsites = get_sites(lat,lng)
+    title_list = []
+    address_list = []
+    lat_list = []
+    lng_list = []
+    phone_list = []
+    web_list = []
+    miles_list = []
+    counter = 0
+    for sites in allsites:
+        if counter != 3:
+            title_list.append(sites.title)
+            address_list.append(sites.entireAddress)
+            lat_list.append(sites.latitude)
+            lng_list.append(sites.longitude)
+            phone_list.append(sites.phone)
+            web_list.append(sites.web)
+            miles_list.append(sites.miles)
+            counter += 1
+        else:
+            break
+        
+    
+    socketio.emit(SITE, {'user_lat':lat,'user_lng':lng,'title':title_list,'address':address_list,'latitude':lat_list,'longitude':lng_list,'phone':phone_list,'web':web_list,'miles':miles_list,'key':api_k})
+    return True
+        
 def articleList():
     """Calls the Article API"""
     articles = get_news(5, since=news.YESTERDAY.strftime("%yyyy-%mm-%dd"), query='covid')
