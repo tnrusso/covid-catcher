@@ -8,7 +8,7 @@ dotenv_path = join(dirname(__file__), "api-keys.env")
 load_dotenv(dotenv_path)
 
 def get_sites(lat,lng):
-    url = ('https://discover.search.hereapi.com/v1/discover?apikey='+os.environ['SITE_API_KEY']+'&q=COVID&at='+str(lat)+','+str(lng)+'&limit=10')
+    url = ('https://discover.search.hereapi.com/v1/discover?apikey='+os.environ['SITE_API_KEY']+'&q=COVID&at='+str(lat)+','+str(lng)+'&limit=3')
     response=requests.get(url)
     data = response.json()
     sites = []
@@ -29,9 +29,15 @@ def get_sites(lat,lng):
         entireAddress = address['houseNumber']+" "+address['street']+", "+address['city']+", "+address['state']+" "+address['postalCode']
         latitude = position['lat']
         longitude = position['lng']
-        for i in x['contacts']:
-            phone = i['phone'][0]['value']
-            web = i['www'][0]['value']
+        if 'contacts' not in x.keys():
+            phone = ''
+            web = ''
+        else:
+            for i in x['contacts']:
+                phone = i['phone'][0]['value']
+                web = i['www'][0]['value']
+        if 'distance' not in x.keys():
+            meter = 0
         meter = x['distance']
         miles = meter*0.00062137119224
         miles = str(miles)[0:4]
