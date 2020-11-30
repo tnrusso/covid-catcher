@@ -16,11 +16,17 @@ def get_sites(lat,lng):
         title = x['title']
         address = x['address']
         position = x['position']
-        if 'houseNumber' in address.keys():
-            houseNumber = address['houseNumber']
-        else:
-            houseNumber = ''
-        entireAddress = houseNumber+" "+address['street']+", "+address['city']+", "+address['state']+" "+address['postalCode']
+        if 'houseNumber' not in address.keys():
+            address['houseNumber'] = ''
+        if 'street' not in address.keys():
+            address['street'] = ''
+        if 'city' not in address.keys():
+            address['city'] = ''
+        if 'state' not in address.keys():
+            address['state'] = ''
+        if 'postalCode' not in address.keys():
+            address['postalCode'] = ''
+        entireAddress = address['houseNumber']+" "+address['street']+", "+address['city']+", "+address['state']+" "+address['postalCode']
         latitude = position['lat']
         longitude = position['lng']
         for i in x['contacts']:
