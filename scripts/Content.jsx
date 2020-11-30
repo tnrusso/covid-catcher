@@ -8,10 +8,9 @@ import { NotExist } from './NotExist';
 import { Stats } from './Stats';
 import { Quest } from './Quest';
 import { Socket } from './Socket';
-import {InfoMap} from './InfoMap';
+import { InfoMap } from './InfoMap';
 
 export function Content() {
-
   return (
     <div>
       <Navigation />
@@ -27,7 +26,7 @@ export function Content() {
           <Route exact path="/articles">
             <Articles />
           </Route>
-          <Route exact path="/statistics">
+          <Route exact path="/statistics/:state">
             <Stats />
           </Route>
           <Route exact path="/questionnaire">

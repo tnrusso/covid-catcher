@@ -1,21 +1,25 @@
 import * as React from 'react';
+import { useHistory } from 'react-router-dom';
 import { Socket } from './Socket';
-import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-router-dom';
 
 export function Menu() {
   const [state, setState] = React.useState('');
+  const history = useHistory();
 
   function handleChange(e) {
+    setState(e.target.value);
     e.preventDefault();
-    if(e.target.value != ""){
-      Socket.emit('search loc', {
-        loc: e.target.value,
-      });
-    }
   }
 
   function handleSubmit(e) {
     e.preventDefault();
+    if (state !== '') {
+      history.push(`/statistics/${state}/`);
+      Socket.emit('search loc', {
+        loc: state,
+      });
+    }
+    setState('');
   }
 
   return (
@@ -75,9 +79,7 @@ export function Menu() {
           <option value="Wisconsin">Wisconsin</option>
           <option value="Wyoming">Wyoming</option>
         </select>
-        <Link to={"/statistics/"}>
-          <input type="submit" onSubmit={handleSubmit} value="Search" className="submit-button"/>
-        </Link>
+        <input type="submit" onSubmit={handleSubmit} value="Search" className="submit-button" />
       </form>
     </div>
   );

@@ -11,37 +11,41 @@ export function Stats() {
   const [state, setState] = useState('');
   const [countyNames, setCountyNames] = useState([]);
   const [countyStats, setCountyStats] = useState([]);
+  const [s, setS] = useState([]);
 
   const chartData = [];
 
-  function getState(){
-    React.useEffect(() => { 
+  function getState() {
+    React.useEffect(() => {
       Socket.on('state', (data) => {
-        console.log(data.loc);
+        setS([...s, data.loc]);
       });
       return () => Socket.off('state');
     });
+
   }
 
   function getStats() {
     React.useEffect(() => {
       Socket.on('stats', (data) => {
-        setCases(data.cases);
-        setDeaths(data.deaths);
-        setRecovered(data.recovered);
-        setState(data.state);
-        setCountyNames(data.countyNames);
-        setCountyStats(data.countyStats);
+        if (typeof (s[0]) === 'undefined') {
+          setCases(data.cases);
+          setDeaths(data.deaths);
+          setRecovered(data.recovered);
+          setState(data.state);
+          setCountyNames(data.countyNames);
+          setCountyStats(data.countyStats);
+        }
       });
       return () => Socket.off('stats');
     });
   }
-  
+
   function handleClick() {
-    
+
   }
-  getState();
   getStats();
+  getState();
   countyNames.map((item, index) => (chartData.push({ county: item, cases: countyStats[index] })));
 
   return (
@@ -64,15 +68,17 @@ export function Stats() {
           height={800}
           data={chartData}
           layout="vertical"
-          margin={{top: 5, right: 10, left: 50, bottom: 5}}
+          margin={{
+            top: 5, right: 10, left: 50, bottom: 5,
+          }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis type="number"/>
-          <YAxis dataKey="county" type="category"/>
+          <XAxis type="number" />
+          <YAxis dataKey="county" type="category" />
           <Tooltip />
           <Legend verticalAlign="top" wrapperStyle={{ lineHeight: '40px' }} />
           <ReferenceLine x={0} stroke="#000" />
-          <Bar dataKey="cases" fill="#82ca9d" onclick={handleClick}/>
+          <Bar dataKey="cases" fill="#82ca9d" onclick={handleClick} />
         </BarChart>
       </div>
     </div>
