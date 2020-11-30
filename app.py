@@ -38,7 +38,6 @@ state = ""
 db = flask_sqlalchemy.SQLAlchemy(app)
 db.init_app(app)
 db.app = app
-
 USERS_UPDATED_CHANNEL = "users updated"
 STATISTICS = "stats"
 NEWUSER = "new user"
@@ -63,6 +62,7 @@ def push_stat_data(state):
     county_deaths = []
     county_rec = []
     updated = []
+
     print("CASES DEATHS AND RECOVERED: ", case, death, rec)
     allcounty = get_covid_stats_by_county(state, '')
     for x in allcounty:
@@ -140,19 +140,16 @@ def userLog():
     if login == 1:
         socketio.emit(NEWUSER, {'login' : 1})
     return True
+
 @socketio.on("search loc")
 def search_loc(data):
-    global state
     state = data["loc"]
     push_stat_data(data["loc"])
-    socketio.emit("state", {"loc": data["loc"]})
+    socketio.emit("state", {"loc": state})
     print(data["loc"])
 @socketio.on("connect")
 def on_connect():
     """Socket for when user connects"""
-    global state
-    if state != "":
-        push_stat_data(state)
     articleList()
     test_location()
     get_state_colors()
