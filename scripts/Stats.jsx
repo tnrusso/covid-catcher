@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   BarChart, Bar, ReferenceLine, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
+import { Menu } from './Menu';
 import { Socket } from './Socket';
 
 export function Stats() {
@@ -11,45 +12,50 @@ export function Stats() {
   const [state, setState] = useState('');
   const [countyNames, setCountyNames] = useState([]);
   const [countyStats, setCountyStats] = useState([]);
-  const [s, setS] = useState([]);
+  const [s, setS] = useState('');
 
   const chartData = [];
 
   function getState() {
     React.useEffect(() => {
       Socket.on('state', (data) => {
-        setS([...s, data.loc]);
+        setS(data.loc);
       });
       return () => Socket.off('state');
     });
-
   }
 
   function getStats() {
     React.useEffect(() => {
+      if (s !== '') {
+        Socket.emit('search loc', { loc: s });
+      }
       Socket.on('stats', (data) => {
-        if (typeof (s[0]) === 'undefined') {
-          setCases(data.cases);
-          setDeaths(data.deaths);
-          setRecovered(data.recovered);
-          setState(data.state);
-          setCountyNames(data.countyNames);
-          setCountyStats(data.countyStats);
-        }
+        setCases(data.cases);
+        setDeaths(data.deaths);
+        setRecovered(data.recovered);
+        setState(data.state);
+        setCountyNames(data.countyNames);
+        setCountyStats(data.countyStats);
       });
-      return () => Socket.off('stats');
-    });
+      return () => {
+        Socket.off('stats');
+        Socket.off('search loc');
+      };
+    }, []);
   }
 
   function handleClick() {
 
   }
+
   getStats();
   getState();
   countyNames.map((item, index) => (chartData.push({ county: item, cases: countyStats[index] })));
 
   return (
     <div id="stats-div">
+      <Menu />
       <h1 className="stats-h1">Current Statistics</h1>
       <h2>{state}</h2>
       <h2>

@@ -14,7 +14,7 @@ export function Menu() {
   function handleSubmit(e) {
     e.preventDefault();
     if (state !== '') {
-      history.push(`/statistics/${state}/`);
+      history.push('/statistics');
       Socket.emit('search loc', {
         loc: state,
       });

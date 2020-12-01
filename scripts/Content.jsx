@@ -26,7 +26,7 @@ export function Content() {
           <Route exact path="/articles">
             <Articles />
           </Route>
-          <Route exact path="/statistics/:state">
+          <Route exact path="/statistics">
             <Stats />
           </Route>
           <Route exact path="/questionnaire">
