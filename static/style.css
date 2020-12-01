@@ -175,3 +175,8 @@ path:hover {
 .color-0 {
     color: #FFFFFF;
 }
+
+.active-cases {
+    text-align: center;
+    margin-top: 50;
+}
