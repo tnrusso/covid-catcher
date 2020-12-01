@@ -173,6 +173,8 @@ export function UsaStateMap() {
   statesCustomConfig();
 
   return (
+    <div>
+    <h1 className="active-cases">Active Cases Per 100,000 People</h1>
     <div className="map">
       <div className="state-map">
         <USAMap customize={statesCustomConfig()} />
@@ -229,6 +231,7 @@ export function UsaStateMap() {
           0 - 99
         </p>
       </div>
+    </div>
     </div>
   );
 }

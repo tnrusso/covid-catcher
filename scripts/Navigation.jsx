@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 export function Navigation() {
-
   return (
     <nav className="navbar navbar-inverse">
       <div className="container-fluid">
@@ -11,11 +10,12 @@ export function Navigation() {
           </a>
         </div>
         <ul className="nav navbar-nav">
+          <li><a href="/statistics">Statistics</a></li>
           <li><a href="/articles">Articles</a></li>
           <li><a href="/faq">FAQ</a></li>
           <li><a href="/questionnaire">Questionnaire</a></li>
-          <li><a href="/about">About</a></li>
           <li><a href="/map">Testing Sites</a></li>
+          <li><a href="/about">About</a></li>
         </ul>
       </div>
     </nav>

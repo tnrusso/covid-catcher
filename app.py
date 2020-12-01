@@ -34,7 +34,7 @@ database_uri = os.environ['DATABASE_URL']
 api_k = os.environ['MAP_API_KEY']
 app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
 login = 0
-state = ""
+
 db = flask_sqlalchemy.SQLAlchemy(app)
 db.init_app(app)
 db.app = app
@@ -81,7 +81,7 @@ def push_stat_data(state):
     socketio.emit(STATISTICS, {'state': state, 'cases' : case, 'deaths' : death,
                                'recovered' : rec, 'countyNames' : county_list,
                                'countyStats' : county_confirmed, 'countydeaths' : county_deaths,
-                               'countyrecovered' : county_rec, 'updated' : updated})
+                               'countyrecovered' : county_rec, 'updated' : updated}, room=request.sid);
     r = "stats are pushed"
     return r
 
@@ -144,9 +144,7 @@ def userLog():
 @socketio.on("search loc")
 def search_loc(data):
     state = data["loc"]
-    push_stat_data(data["loc"])
-    socketio.emit("state", {"loc": state})
-    print(data["loc"])
+    push_stat_data(state)
 @socketio.on("connect")
 def on_connect():
     """Socket for when user connects"""
