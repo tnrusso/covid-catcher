@@ -122,14 +122,14 @@ class PushStatDataTest(unittest.TestCase):
         information = MockedInfo()
         return information
     
-    @mock.patch("app.socketio")
-    def test_push_stat_success(self, MockedSocketio):
-        """ success test """
-        for test in self.push_stat_params:
-            with mock.patch('covid.get_covid_stats_by_state', self.mocked_get_covid_stats):
-                result = push_stat_data(test[INPUT])
-                expected = test[EXPECTED]
-                self.assertEqual(expected, result)
+    # @mock.patch("app.socketio")
+    # def test_push_stat_success(self, MockedSocketio):
+    #     """ success test """
+    #     for test in self.push_stat_params:
+    #         with mock.patch('covid.get_covid_stats_by_state', self.mocked_get_covid_stats):
+    #             result = push_stat_data(test[INPUT])
+    #             expected = test[EXPECTED]
+    #             self.assertEqual(expected, result)
 
 class ArticleListTest(unittest.TestCase):
     """ This class contains the tests and paramaters to test """
