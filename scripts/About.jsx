@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import * as React from 'react';
 
 export function About() {
@@ -11,10 +12,10 @@ export function About() {
       <br />
       <h1>Covid Catcher</h1>
       <p>
-        We`&apos`ve created a one stop web application to get the most relevant and
+        We've created a one stop web application to get the most relevant and
         up to date information about all things COVID-19. On our homepage, you can
         find a map of the U.S. showing which states have a higher concentration of
-        COVID cases. From the dropdown, you can choose a state and you`&apos`ll be redirected
+        COVID cases. From the dropdown, you can choose a state and you'll be redirected
         to a page with current statistics for that state and its counties. On the
         menu bar you choose the Articles tab to view links to recent
         news articles related to COVID. On the FAQ tab, you can view frequently
@@ -29,7 +30,7 @@ export function About() {
       <p>
         We used React/JS for the frontend, Flask for the backend of our application
         and Socket.io for communication between the two.
-        We used Heroku for deployment. We also used the following API`&apos`s to get our
+        We used Heroku for deployment. We also used the following API's to get our
         data:
         <br />
         <br />
@@ -38,14 +39,14 @@ export function About() {
           <li>Covid News API:   https://newsapi.org/pricing </li>
           <li>State and County Statistics API:  https://corona.lmao.ninja/</li>
           <li>Frequently Asked Questions API:   https://faq.coronavirus.gov/api/</li>
-          <li>Get User`&apos`s IP Address API:    https://ipstack.com/</li>
+          <li>Get User's IP Address API:    https://ipstack.com/</li>
         </ul>
       </p>
       <br />
       <h1>Why It Matters</h1>
       <p>
         The COVID-19 pandemic has greatly affected everyone around the world.
-        It`$apos`s important to stay informed about new health regulations, updates on the
+        It's important to stay informed about new health regulations, updates on the
         developing vaccines, and cases in your local area.  However, it can be
         overwhelming to search for information on the internet and distressing to
         turn on the news. Covid Catcher was designed to be a simple and
