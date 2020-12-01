@@ -9,6 +9,7 @@ import { Stats } from './Stats';
 import { Quest } from './Quest';
 import { Socket } from './Socket';
 import { InfoMap } from './InfoMap';
+import { About } from './About'
 
 export function Content() {
   return (
@@ -34,6 +35,9 @@ export function Content() {
           </Route>
           <Route exact path="/map">
             <InfoMap />
+          </Route>
+          <Route exact path="/about">
+            <About />
           </Route>
           <Route path="*">
             <NotExist />
