@@ -1,5 +1,7 @@
 Heroku link (Sprint 1): [https://obscure-ocean-16087.herokuapp.com/](https://obscure-ocean-16087.herokuapp.com/)
+
 Heroku link (Spring 2): [https://sheltered-waters-86353.herokuapp.com/](https://sheltered-waters-86353.herokuapp.com/)
+
 ![alt text](https://github.com/NJIT-CS490/project3-sec3group4/blob/master/static/covid_catcher.png?raw=true)
 
 # Individual Contributions
