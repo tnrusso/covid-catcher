@@ -151,6 +151,9 @@ def on_connect():
     articleList()
     test_location()
     get_state_colors()
+    ip = request.environ['HTTP_X_FORWARDED_FOR']
+    loc = get_location(ip)
+    push_stat_data(loc.state)
     return True
 def test_location():
     ip = request.environ['HTTP_X_FORWARDED_FOR']
