@@ -160,7 +160,13 @@ path:hover {
 #about a {
     font-size: 32pt;
 }
-
+.map-legend {;
+    border: 5px outset gray;
+    border-radius: 5px;
+    margin-bottom: 50;
+    margin-left: 100px;
+    padding:20;
+}
 .map-legend-color {
     font-size: 24pt;
 }
