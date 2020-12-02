@@ -130,10 +130,16 @@ def push_new_user_to_db(name, email, picture, room):
 
 def get_state_colors():
     state_colors = []
+    state_cases = []
+    state_active = []
     for i in get_covid_stats_for_all_states():
         state_colors.append(i.color)
+        state_cases.append(i.cases)
+        state_active.append(i.activeCases)
     socketio.emit('colors', {
-        'colors': state_colors
+        'colors': state_colors,
+        'cases': state_cases,
+        'active': state_active
     })
 def userLog():
     """User Login Check"""
