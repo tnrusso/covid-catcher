@@ -1,5 +1,11 @@
 body {
     font-family: Segoe UI,Frutiger,Frutiger Linotype,Dejavu Sans,Helvetica Neue,Arial,sans-serif;
+    background:#EBF5EE;
+}
+
+.about-paragraph {
+    font-size:20;
+    line-height:30px;
 }
 
 .tiny-text {
@@ -7,7 +13,7 @@ body {
 }
 
 .small-text {
-    font-size:12;
+    font-size:14;
 }
 
 .medium-text {
@@ -21,3 +27,68 @@ body {
 .dark-text {
     color: #07020D;
 }
+
+.about {
+    text-align:center;
+    width:1050px;
+    margin:auto;
+}
+
+.about-header {
+    font-size:32px;
+    font-weight:normal;
+    margin:50 auto 0 auto;
+}
+
+.about-team-members {
+    display:inline-block;
+}
+
+.about-team-member {
+    display:inline-block;
+    width:150px;
+    margin:0 50 0 50;
+}
+
+.about-team-member img {
+    border-radius:50%;
+    width:140px;
+}
+
+.team-desc {
+    width:750px;
+    margin:25 auto 50 auto;
+}
+
+.about-tech {
+    list-style: none;
+}
+
+.about-content hr {
+    margin-bottom:25px;
+}
+
+.about-visit-btn {
+    background:#2E607D;
+    color:#EBF5EE;
+    width:400;
+    height:70;
+    font-size:32px;
+    text-decoration:none;
+    border-radius:15px;
+    margin:50px auto 50px auto;
+    border-style:none;
+    cursor:pointer;
+}
+
+.about-visit-btn:hover {
+    border-style:solid;
+    border-width:2px;
+    border-color:#2E607D;
+    background:#07020D;
+}
+
+#hr-1 { width:100px; }
+#hr-2 { width:140px; }
+#hr-3 { width:150px; }
+#hr-4 { width:220px; }
