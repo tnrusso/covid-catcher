@@ -5,28 +5,31 @@ import { Socket } from './Socket';
 export function Menu() {
   const [state, setState] = React.useState('');
   const history = useHistory();
-
+  
+  
   function handleChange(e) {
+    console.log(e.target.value)
     setState(e.target.value);
+    Socket.emit('search loc', {
+      loc: e.target.value,
+    });
+    history.push('/statistics');
     e.preventDefault();
   }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    if (state !== '') {
-      history.push('/statistics');
-      Socket.emit('search loc', {
-        loc: state,
-      });
-    }
-    setState('');
-  }
+  
+  React.useEffect(() => {
+    Socket.on('stats', (data) => {
+      setState(data.state);
+    });
+    let menu=document.getElementById('states');
+    menu.value = state;
+  });
 
   return (
-    <div id="select-state">
-      <h2>State Statistics</h2>
-      <form className="menu" onSubmit={handleSubmit}>
-        <select id="states" name="state" onChange={handleChange}>
+    <div>
+      <form className="menu">
+
+        <select id="states" value="states" name="state" onChange={handleChange}>
           <option value=""> </option>
           <option value="Alabama">Alabama</option>
           <option value="Alaska">Alaska</option>
@@ -79,7 +82,6 @@ export function Menu() {
           <option value="Wisconsin">Wisconsin</option>
           <option value="Wyoming">Wyoming</option>
         </select>
-        <input type="submit" onSubmit={handleSubmit} value="Search" className="submit-button" />
       </form>
     </div>
   );
