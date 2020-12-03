@@ -1,0 +1,23 @@
+body {
+    font-family: Segoe UI,Frutiger,Frutiger Linotype,Dejavu Sans,Helvetica Neue,Arial,sans-serif;
+}
+
+.tiny-text {
+    font-size:10;
+}
+
+.small-text {
+    font-size:12;
+}
+
+.medium-text {
+    font-size:20;
+}
+
+.large-text {
+    font-size:32;
+}
+
+.dark-text {
+    color: #07020D;
+}
