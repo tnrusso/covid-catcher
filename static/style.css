@@ -144,25 +144,6 @@ path:hover {
     position: absolute;
     right: 2.2%;
 }
-
-#about {
-    margin: 2%;
-    text-align: center;
-    
-}
-#about ul{
-    list-style-type: none;
-    /*text-align: center;*/
-}
-
-#about p {
-     font-size: 14pt;
-     text-align: justify;
-}
-
-#about a {
-    font-size: 32pt;
-}
 .map-legend {;
     border: 5px outset gray;
     border-radius: 5px;

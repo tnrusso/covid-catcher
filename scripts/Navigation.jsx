@@ -13,7 +13,6 @@ export function Navigation() {
     console.log(navItems);
     for (let i = 0; i < navItems.length; i++) {
       var href = navItems[i].href;
-      console.log(href);
       if (path.substring(path.lastIndexOf('/') + 1) === href.substring(href.lastIndexOf('/') + 1)) {
           navItems[i].firstElementChild.classList.add('nav-selected');
       }
