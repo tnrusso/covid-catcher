@@ -54,8 +54,11 @@ def emit_all_users(channel):
 def push_stat_data(state):
     """Calls Covid API"""
     information = get_covid_stats_by_state(state)
+    print(state)
     case = information.cases
+    newCases = information.todaysCases
     death = information.deaths
+    newDeaths = information.todayDeaths
     rec = information.recovered
     county_list = []
     county_confirmed = []
@@ -78,10 +81,11 @@ def push_stat_data(state):
         print(x.recovered)
         print(x.updatedAt)
         '''
-    socketio.emit(STATISTICS, {'state': state, 'cases' : case, 'deaths' : death,
+    socketio.emit(STATISTICS, {'state': state, 'cases' : case, 'new_cases' :newCases, 
+                                'deaths' : death, 'new_deaths':newDeaths,
                                'recovered' : rec, 'countyNames' : county_list,
-                               'countyStats' : county_confirmed, 'countydeaths' : county_deaths,
-                               'countyrecovered' : county_rec, 'updated' : updated}, room=request.sid);
+                               'countyCases' : county_confirmed, 'countyDeaths' : county_deaths,
+                               'countyRecovered' : county_rec, 'updated' : updated}, room=request.sid);
     r = "stats are pushed"
     return r
 

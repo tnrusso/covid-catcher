@@ -5,7 +5,10 @@ import { Menu } from './Menu.jsx';
 export function Home() {
   return (
     <div>
-      <Menu />
+      <div id="select-state">
+        <h2>State Statistics</h2>
+        <Menu />
+      </div>
       <img src="static/covid_catcher.png" className="covid-image" alt="covid-catcher" />
       <UsaStateMap />
     </div>
