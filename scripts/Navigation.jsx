@@ -56,7 +56,7 @@ export function Navigation() {
               <a href="/"><img className='nav-logo' src='static/covid_catcher.png'/></a>
           </li>
           <li>
-            <a className='dark-text' href="/questionnaire">
+            <a className='dark-text' href="/questionnaire-start">
               <div className='nav-destination'>
                 <hr id='top'/>
                 <p>Questionnaire</p>

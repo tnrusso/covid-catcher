@@ -61,7 +61,7 @@ export function Quest() {
   }
 
  return (
-    <div id="surveyContainer">
+    <div className="survey-container">
       <link href="https://surveyjs.azureedge.net/1.8.14/modern.css" type="text/css" rel="stylesheet" />
       <script src="https://surveyjs.azureedge.net/1.8.14/survey.react.min.js"></script>
       <Survey.Survey model={model}/>
