@@ -70,11 +70,13 @@ export function Stats() {
   return (
     <div className="stats-content">
       <h1 className="stats-h1">COVID-19 Statistics</h1>
+      <hr id='hr-5'/>
       <div className='stats-menu-div'>
         <Menu className='stats-state-menu'/>
       </div>
       
       <h2 className="stats-h2">State Statistics</h2>
+      <hr id='hr-6'/>
       <div className="state-stats">
         <div className="state-stat-div">
           <p className="stat-label">Cases</p>
@@ -100,7 +102,7 @@ export function Stats() {
       </div>
       
       <h2 className="stats-h2">County Statistics</h2>
-      
+      <hr id='hr-6'/>
       <form className="chart-menu">
         <label htmlFor="chart-menu">Statistic: </label>
         <select id="chart-menu" name="chart-menu" value={chartKey} onChange={handleChange}>

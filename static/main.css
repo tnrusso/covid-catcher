@@ -113,7 +113,7 @@ body {
 .stats-h1 {
     font-size:36px;
     font-weight:normal;
-    margin:50 auto 25 auto;
+    margin:50 auto 0 auto;
 }
 
 
@@ -140,7 +140,7 @@ body {
 .stats-h2 {
     font-size:30px;
     font-weight:normal;
-    margin:25 auto 25 auto;
+    margin:35 auto 0 auto;
 }
 
 .state-stats {
@@ -173,6 +173,11 @@ body {
     margin: 0 auto 50 auto;
 }
 
+.chart-menu {
+    margin-top:50px;
+    
+}
+
 .chart-menu label {
     font-size:24px;
 }
@@ -180,7 +185,7 @@ body {
 .chart-menu select {
     background-color:#EBF5EE;
     border:none;
-    border-bottom: 2px solid #32936F;
+    border-bottom: 1px solid #32936F;
     color: #2E607D;
     padding: 4px;
     width: 100px;
@@ -190,6 +195,17 @@ body {
     appearance: button;
     outline: none;
 }
+
+#hr-5 { 
+    width:225px;
+    margin-bottom:25px;
+}
+#hr-6 { 
+    width:150px;
+    margin-bottom:25px;
+    
+}
+
 
 /********************/
 /*QUESTIONNAIRE PAGE*/
