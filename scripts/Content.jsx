@@ -10,6 +10,7 @@ import { Quest } from './Quest';
 import { Socket } from './Socket';
 import { InfoMap } from './InfoMap';
 import { About } from './About'
+import { QuestStart } from './QuestStart'
 
 export function Content() {
   return (
@@ -29,6 +30,9 @@ export function Content() {
           </Route>
           <Route exact path="/statistics">
             <Stats />
+          </Route>
+          <Route exact path="/questionnaire-start">
+            <QuestStart />
           </Route>
           <Route exact path="/questionnaire">
             <Quest />

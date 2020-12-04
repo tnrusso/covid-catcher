@@ -205,3 +205,61 @@ body {
     margin-bottom:25px;
     
 }
+
+
+/********************/
+/*QUESTIONNAIRE PAGE*/
+/********************/
+
+.quest-start-content {
+    text-align:center;
+}
+
+.quest-start-content hr{
+    width:500px;
+}
+
+.quest-h1 {
+    font-size:36px;
+    font-weight:normal;
+    margin:100 auto 10 auto;
+}
+
+.quest-normal-text {
+    font-size:22px;
+    width:450px;
+    margin:25px auto 25px auto;
+}
+
+.start-quest-button {
+    transition-duration: 0.4s;
+    background: #32936F;
+    color: white; 
+    border-radius: 5px;
+    border: 2px solid #32936F;
+    cursor:pointer;
+    font-size:22px;
+    padding:7px;
+}
+
+.start-quest-button:hover {
+    background: #B2DEBF;
+    color: black; 
+}
+
+.survey-container {
+    margin:auto auto 100px auto;
+    padding-bottom: 100px;
+    width:900px;
+    text-align:left;
+}
+
+.survey-wrapper {
+    text-align:left;
+}
+
+.sv-completedpage {
+    margin-top:-50px;
+    margin-bottom: 100px;
+    padding:0;
+}
