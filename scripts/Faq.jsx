@@ -35,8 +35,9 @@ export function Faq() {
   
 
   return (
-    <div id="faq-div">
+    <div className="faq-div">
       <h1 className="faq-h1">Frequently Asked Questions</h1>
+      <hr />
       
       <div className="faq-frame">
         <ul className="faq-category-list">
