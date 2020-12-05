@@ -24,16 +24,25 @@ export function Articles() {
   
   getArticles();
   return (
-    <div id="article-div">
-      <h1 className="article-h1">COVID-19 Articles</h1>
-      <ul className="articles-ul">
+    <div className="article-page">
+      <h1 className="article-page-h1">Latest COVID-19 News</h1>
+      <hr id = 'hr-7'/>
+      <ul className="article-ul">
         {title.map((articleTitle, index) => (
           <li className="article-li" key={index}>
-            <p className="article-title">{articleTitle}</p>
-            <p className="article-desc">{desc[index]}</p>
-            <a href={url[index]}>{url[index]}</a>
-            <img className="article-image" src={image[index]} alt="article" />
-            <p className="article-source">{source[index]}</p>
+            <div className="article-content">
+              <div className="article-image-container">
+                <img className="article-image" src={image[index]} alt="article" />
+                <a className="article-link" target="_blank" href={url[index]}>Read Article at {source[index]}</a>
+              </div>
+              <div className='article-text'>
+                <p className="article-title">{articleTitle}</p>
+                <p className="article-desc">{desc[index]}</p>
+                <p className="article-source"><i>Supplied by {source[index]}</i></p>
+              </div>
+            </div>
+            
+            <hr id = 'hr-8'/>
           </li>
         ))}
       </ul>
