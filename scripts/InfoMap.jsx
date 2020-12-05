@@ -40,13 +40,11 @@ export function InfoMap() {
 console.log("this is "+ key)
 if(key == '')
 {
-  console.log("EMPTY")
+  console.log("LOADING")
   
 }
 else{
-  console.log("GOOG")
-  console.log("latss" + ulatitude)
-  var l  =      <ul className="articles-ul"><Map align="right" key1={key} userLat={ulatitude} userLng={ulongitude} lat1={latitudes[0]} lng1={longitudes[0]} lat2={latitudes[1]} lng2={longitudes[1]} lat3={latitudes[2]} lng3={longitudes[2]}/>
+  var l  =      <ul className="articles-ul"><Map align="right" key1={key} titleplace1={title[0]} titleplace2={title[1]} titleplace3={title[2]} userLat={ulatitude} userLng={ulongitude} lat1={latitudes[0]} lng1={longitudes[0]} lat2={latitudes[1]} lng2={longitudes[1]} lat3={latitudes[2]} lng3={longitudes[2]}/>
         {title.map((siteTitle, index) => (
           <li className="article-li" key={index}>
             <p className="article-title">{siteTitle}</p>

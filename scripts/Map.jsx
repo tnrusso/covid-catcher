@@ -10,8 +10,8 @@ export default class Map extends React.Component {
 
   }
   componentDidMount() {
+
     if (!this.map) {
-      // instantiate a platform, default layers and a map as usual
       var platform = new H.service.Platform({
         apikey: this.props.key1
       });
@@ -21,11 +21,8 @@ export default class Map extends React.Component {
       
       
 var targetElement = document.getElementById('mapContainer');
-
-// Get the default map types from the platform object:
 var defaultLayers = platform.createDefaultLayers();
 
-// Instantiate the map:
 var map = new H.Map(
   this.ref.current,
   defaultLayers.vector.normal.map,
@@ -33,11 +30,12 @@ var map = new H.Map(
     zoom: 14,
     center: { lat: this.props.userLat, lng: this.props.userLng }
   });
-  this.map = map;;
+  this.map = map;
 var userOrigin = this.props.userLat+','+this.props.userLng;
 var dest1 = this.props.lat1+','+this.props.lng1
 var dest2 = this.props.lat2+','+this.props.lng2
 var dest3 = this.props.lat3+','+this.props.lng3
+ var ui = H.ui.UI.createDefault(map, defaultLayers, 'en-US');
 var routingParameters = {
   'routingMode': 'fast',
   'transportMode': 'car',
@@ -69,12 +67,9 @@ var routingParameters2 = {
   'return': 'polyline'
 };
 
-// Define a callback function to process the routing response:
 var onResult = function(result) {
-  // ensure that at least one route was found
   if (result.routes.length) {
     result.routes[0].sections.forEach((section) => {
-         // Create a linestring to use as a point source for the route line
         let linestring = H.geo.LineString.fromFlexiblePolyline(section.polyline);
         var routeOutline = new H.map.Polyline(linestring, {
           style: {
@@ -104,10 +99,8 @@ routeLine.addObjects([routeOutline, routeArrows]);
         });}
 };
 var onResult3 = function(result) {
-  // ensure that at least one route was found
   if (result.routes.length) {
     result.routes[0].sections.forEach((section) => {
-         // Create a linestring to use as a point source for the route line
         let linestring = H.geo.LineString.fromFlexiblePolyline(section.polyline);
         var routeOutline = new H.map.Polyline(linestring, {
           style: {
@@ -137,10 +130,8 @@ routeLine.addObjects([routeOutline, routeArrows]);
         });}
 };
 var onResult1 = function(result) {
-  // ensure that at least one route was found
   if (result.routes.length) {
     result.routes[0].sections.forEach((section) => {
-         // Create a linestring to use as a point source for the route line
         let linestring = H.geo.LineString.fromFlexiblePolyline(section.polyline);
         var routeOutline = new H.map.Polyline(linestring, {
           style: {
@@ -184,7 +175,30 @@ router.calculateRoute(routingParameters, onResult,
   function(error) {
     alert(error.message);
   });
+  var homebubble = new H.ui.InfoBubble({ lng: this.props.userLng, lat:this.props.userLat }, {
+                content: '<b>You are Here!</b>'
+             });
  
+var place1 = new H.ui.InfoBubble({ lng: this.props.lng1, lat:this.props.lat1 }, {
+                content: '<p>'+this.props.titleplace1+'!</p>'
+             });
+             var place2 = new H.ui.InfoBubble({ lng: this.props.lng2, lat:this.props.lat2 }, {
+                content: '<p>'+this.props.titleplace2+'!</p>'
+             });
+             var place3 = new H.ui.InfoBubble({ lng: this.props.lng3, lat:this.props.lat3 }, {
+                content: '<p>'+this.props.titleplace3+'!</p>'
+             });
+var mapSettings = ui.getControl('mapsettings');
+var zoom = ui.getControl('zoom').setDisabled(false);
+var scalebar = ui.getControl('scalebar');
+
+mapSettings.setAlignment('top-left');
+zoom.setAlignment('top-left');
+scalebar.setAlignment('top-left');
+ ui.addBubble(homebubble);
+ ui.addBubble(place1);
+ ui.addBubble(place2);
+ ui.addBubble(place3);
 
 
 
