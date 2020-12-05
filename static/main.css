@@ -1,6 +1,8 @@
 body {
     font-family: Segoe UI,Frutiger,Frutiger Linotype,Dejavu Sans,Helvetica Neue,Arial,sans-serif;
     background:#EBF5EE;
+    margin:0;
+    padding:0;
 }
 
 .about-paragraph {
@@ -194,6 +196,11 @@ body {
     -webkit-appearance: button;
     appearance: button;
     outline: none;
+}
+#chart{
+  display: flex;
+  align-items: center;
+  justify-content: center
 }
 
 #hr-5 { 
@@ -515,4 +522,76 @@ body {
 
 .testing-desc {
     margin-bottom:25px;
+}
+
+/******/
+/*HOME*/
+/******/
+
+.map {
+    display: flex;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+path:hover {
+    opacity: 0.75;
+}
+
+.covid-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+.map-legend {;
+    border: 5px outset gray;
+    border-radius: 5px;
+    margin-bottom: 50;
+    margin-left: 100px;
+    padding:20;
+}
+.map-legend-color {
+    font-size: 24pt;
+}
+.color-4000 {
+    color: #820000;
+}
+.color-3500 {
+    color: #8F1C1C;
+}
+.color-3000 {
+    color: #9D3838;
+}
+.color-2500 {
+    color: #AB5555;
+}
+.color-2000 {
+    color: #B97171;
+}
+.color-1500 {
+    color: #C78D8D;
+}
+.color-1000 {
+    color: #D5AAAA;
+}
+.color-500 {
+    color: #E3C6C6;
+}
+.color-100 {
+    color: #F1E2E2;
+}
+.color-0 {
+    color: #FFFFFF;
+}
+
+.active-cases {
+    text-align: center;
+    margin-top: 50;
+}
+
+#select-state {
+    position: absolute;
+    right: 2.2%;
 }
