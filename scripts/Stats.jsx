@@ -114,7 +114,7 @@ export function Stats() {
       <div id="chart">
         <BarChart
           width={1000}
-          height={chartData.length * 35}
+          height={chartData.length * 35 + 30}
           data={chartData}
           layout="vertical"
           margin={{
@@ -122,7 +122,7 @@ export function Stats() {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis type="number" />
+          <XAxis type="number" orientation='bottom'/>
           <YAxis dataKey="county" type="category" />
           <Tooltip />
           <Legend verticalAlign="top" wrapperStyle={{ lineHeight: '40px' }} />

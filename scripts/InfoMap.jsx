@@ -36,33 +36,40 @@ export function InfoMap() {
   }
 
   getInfoMap();
- 
-console.log("this is "+ key)
-if(key == '')
-{
-  console.log("LOADING")
   
-}
-else{
-  var l  =      <ul className="articles-ul"><Map align="right" key1={key} titleplace1={title[0]} titleplace2={title[1]} titleplace3={title[2]} userLat={ulatitude} userLng={ulongitude} lat1={latitudes[0]} lng1={longitudes[0]} lat2={latitudes[1]} lng2={longitudes[1]} lat3={latitudes[2]} lng3={longitudes[2]} web1 = {web[0]} web2 = {web[1]} web3 = {web[2]}/>
+if (key != ''){
+  var l  = 
+  
+    <div className="testing-content">
+      <div className="testing-map">
+        <Map align="right" key1={key} 
+          titleplace1={title[0]} lat1={latitudes[0]} lng1={longitudes[0]} web1 = {web[0]} 
+          titleplace2={title[1]} lat2={latitudes[1]} lng2={longitudes[1]} web2 = {web[1]} 
+          titleplace3={title[2]} lat3={latitudes[2]} lng3={longitudes[2]} web3 = {web[2]}
+          userLat={ulatitude} userLng={ulongitude} />
+      </div>
+        
+      <ul className="testing-ul">
         {title.map((siteTitle, index) => (
-          <li className="article-li" key={index}>
-            <p className="article-title">{siteTitle}</p>
-            <p className="article-desc">{address[index]}</p>
-            <p className="article-source">{phone[index]}</p>
-            <a href={web[index]}>{web[index]}</a>
-            <p className="article-desc">Distance : {miles[index]} miles</p>
+          <li className="testing-li" key={index}>
+            <p className="testing-title">{siteTitle}</p>
+            <p className="testing-desc">{address[index]}</p>
+            <p className="testing-source">Tel: <i>{phone[index]}</i></p>
+            <p className="testing-desc">Distance : <i>{miles[index]}</i> miles</p>
+            <a className="testing-link" href={web[index]}>Go To Website</a>
+            <hr id='hr-9' />
           </li>
         ))} 
-      </ul>  
- 
+      </ul>
+    </div>
 }
   return (
-  <div id="article-div">
-<h1 className="faq-h1">Nearest COVID-19 Testing Locations</h1>
+  <div className="testing-wrapper">
+    <h1 className="testing-h1">Nearest COVID-19 Testing Locations</h1>
+    <hr id='hr-8'/>
     
        {l}
-    </div>
+  </div>
    
   );
 }

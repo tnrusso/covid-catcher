@@ -13,7 +13,7 @@ export function QuestStart() {
                 and others from Covid-19.
             </p>
             <form action="/questionnaire">
-                <input type="submit" class="start-quest-button" value="Start Questionnaire"/>
+                <input type="submit" className="start-quest-button" value="Start Questionnaire"/>
             </form>
         </div>
     );

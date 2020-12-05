@@ -10,7 +10,6 @@ export function Navigation() {
     path = decodeURIComponent(path);
 
     var navItems = document.getElementsByTagName("a");
-    console.log(navItems);
     for (let i = 0; i < navItems.length; i++) {
       var href = navItems[i].href;
       if (path.substring(path.lastIndexOf('/') + 1) === href.substring(href.lastIndexOf('/') + 1)) {
