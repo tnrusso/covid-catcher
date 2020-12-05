@@ -433,3 +433,86 @@ body {
     width:75%;
     margin: auto auto auto auto;
 }
+
+/***************/
+/*TESTING SITES*/
+/***************/
+.testing-wrapper {
+    text-align:center;
+}
+
+.testing-h1 {
+    font-size:36px;
+    font-weight:normal;
+    margin:50 auto 10 auto;
+}
+
+#hr-8 {
+    width: 500px;
+    margin: 0 auto 50px auto;
+}
+
+.testing-content {
+    width: 1050px;
+    height: 630px;
+    margin:auto;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    margin-bottom: 50px;
+    
+}
+
+.testing-map {
+    float:left;
+    width:60%;
+    height:630px;
+    margin:-3;
+    border-width: 3px;
+    border-style: solid;
+    border-color:#32936F;
+}
+
+.testing-ul {
+    height:630px;
+    overflow-y: scroll;
+    list-style-type: none;
+    width:40%;
+    margin:0;
+    padding:0;
+    float:right;
+    background: #B2DEBF;
+    margin:-3;
+    border-width: 3px;
+    border-style: solid;
+    border-color:#32936F;
+}
+
+.testing-li {
+    margin:10px;
+}
+
+#hr-9 {
+    width:auto;
+    margin:25px;
+}
+
+.testing-title {
+    font-weight: bold;
+    font-size: 18pt;
+}
+
+.testing-link {
+    transition-duration: 0.4s;
+    background: #32936F;
+    color: white; 
+    border-radius: 5px;
+    border: 2px solid #32936F;
+    cursor:pointer;
+    font-size:16px;
+    padding:7px;
+    margin:7px auto 7px auto;
+    text-decoration:none;
+}
+
+.testing-desc {
+    margin-bottom:25px;
+}

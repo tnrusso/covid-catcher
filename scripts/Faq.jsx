@@ -11,7 +11,6 @@ export function Faq() {
   
   React.useEffect(() => {
     Socket.on('faq category list', (data) => {
-      console.log('category');
       setCategories(data);
     });
     return () => Socket.off('faq category list');
@@ -27,7 +26,6 @@ export function Faq() {
   
   React.useEffect(() => {
     Socket.on('faq list', (data) => {
-        console.log('questions');
         setQuestions(data);
     });
     return () => Socket.off('faq list');

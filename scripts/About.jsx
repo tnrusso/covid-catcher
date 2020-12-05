@@ -1,7 +1,14 @@
 /* eslint-disable react/no-unescaped-entities */
 import * as React from 'react';
+import { useHistory } from 'react-router-dom';
 
 export function About() {
+  const history = useHistory();
+  
+  function sendHome() {
+    history.push('/');
+  }
+  
   return (
     <div className="about">
       <div className="about-content">
@@ -65,7 +72,7 @@ export function About() {
         </p>
         <p className='about-header'>Technologies We Used</p>
         <hr id='hr-4'/>
-        <p className='about-paragraph'>
+        <div className='about-paragraph'>
           We used React/JS for the frontend, Flask for the backend of our application
           and Socket.io for communication between the two.
           We used Heroku for deployment. We also used the following API's to get our
@@ -98,8 +105,8 @@ export function About() {
               </a>
             </li>
           </ul>
-        </p>
-        <input type="button" className='about-visit-btn' onClick="location.href='/';" value="Visit Our Home Page"/>
+        </div>
+        <input type="button" className='about-visit-btn' onClick={sendHome} value="Visit Our Home Page"/>
       </div>
     </div>
   );

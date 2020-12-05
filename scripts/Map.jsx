@@ -250,7 +250,6 @@ scalebar.setAlignment('top-left');
   render() {
     return (
       <div 
-        style={{ width: '900px', height:'900px' }}
         ref={this.ref}
       >
        </div>
