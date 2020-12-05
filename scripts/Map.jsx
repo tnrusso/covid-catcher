@@ -10,7 +10,7 @@ export default class Map extends React.Component {
 
   }
   componentDidMount() {
-
+ 
     if (!this.map) {
       var platform = new H.service.Platform({
         apikey: this.props.key1
@@ -25,6 +25,7 @@ var defaultLayers = platform.createDefaultLayers();
 
 var map = new H.Map(
   this.ref.current,
+  
   defaultLayers.vector.normal.map,
   {
     zoom: 14,
@@ -32,10 +33,53 @@ var map = new H.Map(
   });
   this.map = map;
 var userOrigin = this.props.userLat+','+this.props.userLng;
-var dest1 = this.props.lat1+','+this.props.lng1
-var dest2 = this.props.lat2+','+this.props.lng2
-var dest3 = this.props.lat3+','+this.props.lng3
- var ui = H.ui.UI.createDefault(map, defaultLayers, 'en-US');
+var dest1 = this.props.lat1+','+this.props.lng1;
+var dest2 = this.props.lat2+','+this.props.lng2;
+var dest3 = this.props.lat3+','+this.props.lng3;
+var ui = H.ui.UI.createDefault(map, defaultLayers, 'en-US');
+const mapEvents = new H.mapevents.MapEvents(map);
+const bh = new H.mapevents.Behavior(mapEvents);
+const startMarker1 = new H.map.Marker({lat:this.props.userLat, lng: this.props.userLng});
+  startMarker1.addEventListener("tap", event => {
+  const bubble = new H.ui.InfoBubble(
+    {lat:this.props.userLat, lng: this.props.userLng},
+    {
+      content: "<b> You are Here! </b>"
+    }
+    );
+    ui.addBubble(bubble);
+},false);
+const endMarker1 = new H.map.Marker({lat:this.props.lat1, lng: this.props.lng1});
+  endMarker1.addEventListener("tap", event => {
+  const bubble1 = new H.ui.InfoBubble(
+    {lat:this.props.lat1, lng: this.props.lng1},
+    {
+      content: "<a href="+this.props.web1+">"+this.props.titleplace1+"</a>"
+    }
+    );
+    ui.addBubble(bubble1);
+},false);
+const endMarker2 = new H.map.Marker({lat:this.props.lat2, lng: this.props.lng2});
+  endMarker2.addEventListener("tap", event => {
+  const bubble2 = new H.ui.InfoBubble(
+    {lat:this.props.lat2, lng: this.props.lng2},
+    {
+      content: "<a href="+this.props.web2+">"+this.props.titleplace2+"</a>"
+    }
+    );
+    ui.addBubble(bubble2);
+},false);
+const endMarker3 = new H.map.Marker({lat:this.props.lat3, lng: this.props.lng3});
+  endMarker3.addEventListener("tap", event => {
+  const bubble3 = new H.ui.InfoBubble(
+    {lat:this.props.lat3, lng: this.props.lng3},
+    {
+      content: "<a href="+this.props.web3+">"+this.props.titleplace3+"</a>"
+    }
+    );
+    ui.addBubble(bubble3);
+},false);
+
 var routingParameters = {
   'routingMode': 'fast',
   'transportMode': 'car',
@@ -92,9 +136,9 @@ var onResult = function(result) {
 var routeLine = new H.map.Group();
 routeLine.addObjects([routeOutline, routeArrows]);
 
-        let startMarker = new H.map.Marker(section.departure.place.location);
-        let endMarker = new H.map.Marker(section.arrival.place.location);
-        map.addObjects([routeLine, startMarker, endMarker]);
+        //let startMarker = new H.map.Marker(section.departure.place.location);
+        //let endMarker = new H.map.Marker(section.arrival.place.location);
+        map.addObjects([routeLine, startMarker1, endMarker1]);
        
         });}
 };
@@ -123,9 +167,10 @@ var onResult3 = function(result) {
 var routeLine = new H.map.Group();
 routeLine.addObjects([routeOutline, routeArrows]);
 
-        let startMarker = new H.map.Marker(section.departure.place.location);
-        let endMarker = new H.map.Marker(section.arrival.place.location);
-        map.addObjects([routeLine, startMarker, endMarker]);
+        //let startMarker = new H.map.Marker(section.departure.place.location);
+  
+        //let endMarker = new H.map.Marker(section.arrival.place.location);
+        map.addObjects([routeLine, startMarker1, endMarker3]);
        
         });}
 };
@@ -154,9 +199,9 @@ var onResult1 = function(result) {
 var routeLine = new H.map.Group();
 routeLine.addObjects([routeOutline, routeArrows]);
 
-        let startMarker = new H.map.Marker(section.departure.place.location);
-        let endMarker = new H.map.Marker(section.arrival.place.location);
-        map.addObjects([routeLine, startMarker, endMarker]);
+        //let startMarker = new H.map.Marker(section.departure.place.location);
+        //let endMarker = new H.map.Marker(section.arrival.place.location);
+        map.addObjects([routeLine, startMarker1, endMarker2]);
        
         });}
 };
@@ -175,6 +220,7 @@ router.calculateRoute(routingParameters, onResult,
   function(error) {
     alert(error.message);
   });
+  /*
   var homebubble = new H.ui.InfoBubble({ lng: this.props.userLng, lat:this.props.userLat }, {
                 content: '<b>You are Here!</b>'
              });
@@ -187,7 +233,7 @@ var place1 = new H.ui.InfoBubble({ lng: this.props.lng1, lat:this.props.lat1 }, 
              });
              var place3 = new H.ui.InfoBubble({ lng: this.props.lng3, lat:this.props.lat3 }, {
                 content: '<p>'+this.props.titleplace3+'!</p>'
-             });
+             });*/
 var mapSettings = ui.getControl('mapsettings');
 var zoom = ui.getControl('zoom').setDisabled(false);
 var scalebar = ui.getControl('scalebar');
@@ -195,10 +241,6 @@ var scalebar = ui.getControl('scalebar');
 mapSettings.setAlignment('top-left');
 zoom.setAlignment('top-left');
 scalebar.setAlignment('top-left');
- ui.addBubble(homebubble);
- ui.addBubble(place1);
- ui.addBubble(place2);
- ui.addBubble(place3);
 
 
 
