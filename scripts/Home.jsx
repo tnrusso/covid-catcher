@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { UsaStateMap } from './UsaStateMap';
-import { Menu } from './Menu.jsx';
+import { Menu } from './Menu';
 
 export function Home() {
   return (

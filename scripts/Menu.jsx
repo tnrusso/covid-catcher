@@ -5,10 +5,8 @@ import { Socket } from './Socket';
 export function Menu() {
   const [state, setState] = React.useState('');
   const history = useHistory();
-  
-  
+
   function handleChange(e) {
-    console.log(e.target.value)
     setState(e.target.value);
     Socket.emit('search loc', {
       loc: e.target.value,
@@ -16,12 +14,12 @@ export function Menu() {
     history.push('/statistics');
     e.preventDefault();
   }
-  
+
   React.useEffect(() => {
     Socket.on('stats', (data) => {
       setState(data.state);
     });
-    let menu=document.getElementById('states');
+    const menu = document.getElementById('states');
     menu.value = state;
   });
 
