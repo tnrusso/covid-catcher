@@ -1,14 +1,12 @@
-#pylint: disable=C0103
+# pylint: disable=C0103, C0413, E1101, W0611
 """Covid Catcher Backend"""
 import os
 from os.path import join, dirname
-from datetime import datetime
 import json
 import flask
 from flask import request
 import flask_sqlalchemy
 import flask_socketio
-import requests
 from dotenv import load_dotenv
 from covid import get_covid_stats_by_state
 from covid import get_covid_stats_by_county
@@ -24,6 +22,7 @@ import sites
 from sites import get_sites
 from sites import search_user
 from sites import TestingSites
+
 app = flask.Flask(__name__)
 socketio = flask_socketio.SocketIO(app)
 socketio.init_app(app, cors_allowed_origins="*")
@@ -31,9 +30,9 @@ dotenv_path = join(dirname(__file__), "sql.env")
 load_dotenv(dotenv_path)
 dotenv_path = join(dirname(__file__), "api-keys.env")
 load_dotenv(dotenv_path)
-database_uri = os.environ['DATABASE_URL']
-api_k = os.environ['MAP_API_KEY']
-app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
+database_uri = os.environ["DATABASE_URL"]
+api_k = os.environ["MAP_API_KEY"]
+app.config["SQLALCHEMY_DATABASE_URI"] = database_uri
 login = 0
 
 db = flask_sqlalchemy.SQLAlchemy(app)
@@ -44,14 +43,17 @@ STATISTICS = "stats"
 NEWUSER = "new user"
 FAQS = "faq lists"
 ARTICLE = "article list"
-SITE = 'site page'
-SEARCH = 'searching'
+SITE = "site page"
+SEARCH = "searching"
 import models
+
+
 def emit_all_users(channel):
     """emits all users"""
     all_users = [user.name for user in db.session.query(models.User1).all()]
     socketio.emit(channel, {"allUsers": all_users})
     return channel
+
 
 def push_stat_data(state):
     """Calls Covid API"""
@@ -69,27 +71,34 @@ def push_stat_data(state):
     updated = []
 
     print("CASES DEATHS AND RECOVERED: ", case, death, rec)
-    allcounty = get_covid_stats_by_county(state, '')
+    allcounty = get_covid_stats_by_county(state, "")
     for x in allcounty:
         county_list.append(x.county)
         county_confirmed.append(x.confirmed)
         county_deaths.append(x.deaths)
         county_rec.append(x.recovered)
         updated.append(x.updatedAt)
-        '''
-        print(x.county)
-        print(x.confirmed)
-        print(x.deaths)
-        print(x.recovered)
-        print(x.updatedAt)
-        '''
-    socketio.emit(STATISTICS, {'state': state, 'cases' : case, 'new_cases' :newCases, 
-                                'deaths' : death, 'new_deaths':newDeaths,
-                               'recovered' : rec, 'countyNames' : county_list,
-                               'countyCases' : county_confirmed, 'countyDeaths' : county_deaths,
-                               'countyRecovered' : county_rec, 'updated' : updated}, room=request.sid);
+
+    socketio.emit(
+        STATISTICS,
+        {
+            "state": state,
+            "cases": case,
+            "new_cases": newCases,
+            "deaths": death,
+            "new_deaths": newDeaths,
+            "recovered": rec,
+            "countyNames": county_list,
+            "countyCases": county_confirmed,
+            "countyDeaths": county_deaths,
+            "countyRecovered": county_rec,
+            "updated": updated,
+        },
+        room=request.sid,
+    )
     r = "stats are pushed"
     return r
+
 
 @socketio.on("new google user")
 def on_new_google_user(data):
@@ -99,26 +108,31 @@ def on_new_google_user(data):
     emit_all_users(USERS_UPDATED_CHANNEL)
     return USERS_UPDATED_CHANNEL
 
+
 @socketio.on("faq categories")
 def on_faq_categories():
     """get all categories for faqs"""
     categories = get_all_categories()
-    socketio.emit('faq category list', categories)
+    socketio.emit("faq category list", categories)
+
 
 @socketio.on("faq questions")
 def on_faq_questions(category):
     """get questions and answers in a category"""
-    if category == '' or category == None:
+    if category == "" or category == None:
         faqs = get_all_questions()
     else:
         faqs = get_all_questions(category)
     response = []
     for faq in faqs:
-        response.append({
-            'question':faq.question,
-            'answer': faq.answer,
-        })
-    socketio.emit('faq list', response)
+        response.append(
+            {
+                "question": faq.question,
+                "answer": faq.answer,
+            }
+        )
+    socketio.emit("faq list", response)
+
 
 def push_new_user_to_db(name, email, picture, room):
     """puts new user in the database"""
@@ -134,7 +148,9 @@ def push_new_user_to_db(name, email, picture, room):
     emit_all_users(USERS_UPDATED_CHANNEL)
     return name
 
+
 def get_state_colors():
+    """Colors for USA map"""
     state_colors = []
     state_cases = []
     state_active = []
@@ -142,36 +158,43 @@ def get_state_colors():
         state_colors.append(i.color)
         state_cases.append(i.cases)
         state_active.append(i.activeCases)
-    socketio.emit('colors', {
-        'colors': state_colors,
-        'cases': state_cases,
-        'active': state_active
-    })
+    socketio.emit(
+        "colors", {"colors": state_colors, "cases": state_cases, "active": state_active}
+    )
+
+
 def userLog():
     """User Login Check"""
     if login == 1:
-        socketio.emit(NEWUSER, {'login' : 1})
+        socketio.emit(NEWUSER, {"login": 1})
     return True
+
 
 @socketio.on("search loc")
 def search_loc(data):
+    """Search for location covid stats"""
     state = data["loc"]
     push_stat_data(state)
+
+
 @socketio.on("connect")
 def on_connect():
     """Socket for when user connects"""
     articleList()
     test_location()
     get_state_colors()
-    ip = request.environ['HTTP_X_FORWARDED_FOR']
+    ip = request.environ["HTTP_X_FORWARDED_FOR"]
     loc = get_location(ip)
     push_stat_data(loc.state)
     return True
-@socketio.on("search location")    
+
+
+@socketio.on("search location")
 def searching(data):
-    a = data['area']
+    """Search location"""
+    a = data["area"]
     areaLoc = search_user(a)
-    allsites = get_sites(areaLoc[0],areaLoc[1])
+    allsites = get_sites(areaLoc[0], areaLoc[1])
     title_list = []
     address_list = []
     lat_list = []
@@ -180,28 +203,44 @@ def searching(data):
     web_list = []
     miles_list = []
     counter = 0
-    for sites in allsites:
+    for site in allsites:
         if counter != 3:
-            title_list.append(sites.title)
-            address_list.append(sites.entireAddress)
-            lat_list.append(sites.latitude)
-            lng_list.append(sites.longitude)
-            phone_list.append(sites.phone)
-            web_list.append(sites.web)
-            miles_list.append(sites.miles)
+            title_list.append(site.title)
+            address_list.append(site.entireAddress)
+            lat_list.append(site.latitude)
+            lng_list.append(site.longitude)
+            phone_list.append(site.phone)
+            web_list.append(site.web)
+            miles_list.append(site.miles)
             counter += 1
         else:
             break
-        
-    
-    socketio.emit(SITE, {'user_lat':areaLoc[0],'user_lng':areaLoc[1],'title':title_list,'address':address_list,'latitude':lat_list,'longitude':lng_list,'phone':phone_list,'web':web_list,'miles':miles_list,'key':api_k})
+
+    socketio.emit(
+        SITE,
+        {
+            "user_lat": areaLoc[0],
+            "user_lng": areaLoc[1],
+            "title": title_list,
+            "address": address_list,
+            "latitude": lat_list,
+            "longitude": lng_list,
+            "phone": phone_list,
+            "web": web_list,
+            "miles": miles_list,
+            "key": api_k,
+        },
+    )
     return True
+
+
 def test_location():
-    ip = request.environ['HTTP_X_FORWARDED_FOR']
+    """Get testing locations"""
+    ip = request.environ["HTTP_X_FORWARDED_FOR"]
     loc = get_location(ip)
     lat = loc.latitude
     lng = loc.longitude
-    allsites = get_sites(lat,lng)
+    allsites = get_sites(lat, lng)
     title_list = []
     address_list = []
     lat_list = []
@@ -210,26 +249,42 @@ def test_location():
     web_list = []
     miles_list = []
     counter = 0
-    for sites in allsites:
+    for site in allsites:
         if counter != 3:
-            title_list.append(sites.title)
-            address_list.append(sites.entireAddress)
-            lat_list.append(sites.latitude)
-            lng_list.append(sites.longitude)
-            phone_list.append(sites.phone)
-            web_list.append(sites.web)
-            miles_list.append(sites.miles)
+            title_list.append(site.title)
+            address_list.append(site.entireAddress)
+            lat_list.append(site.latitude)
+            lng_list.append(site.longitude)
+            phone_list.append(site.phone)
+            web_list.append(site.web)
+            miles_list.append(site.miles)
             counter += 1
         else:
             break
-        
-    
-    socketio.emit(SITE, {'user_lat':lat,'user_lng':lng,'title':title_list,'address':address_list,'latitude':lat_list,'longitude':lng_list,'phone':phone_list,'web':web_list,'miles':miles_list,'key':api_k})
+
+    socketio.emit(
+        SITE,
+        {
+            "user_lat": lat,
+            "user_lng": lng,
+            "title": title_list,
+            "address": address_list,
+            "latitude": lat_list,
+            "longitude": lng_list,
+            "phone": phone_list,
+            "web": web_list,
+            "miles": miles_list,
+            "key": api_k,
+        },
+    )
     return True
-        
+
+
 def articleList():
     """Calls the Article API"""
-    articles = get_news(5, since=news.YESTERDAY.strftime("%yyyy-%mm-%dd"), query='covid')
+    articles = get_news(
+        5, since=news.YESTERDAY.strftime("%yyyy-%mm-%dd"), query="covid"
+    )
     title_list = []
     desc_list = []
     url_list = []
@@ -241,9 +296,18 @@ def articleList():
         source_list.append(art.source)
         desc_list.append(art.description)
         url_list.append(art.url)
-    socketio.emit(ARTICLE, {'title': title_list, 'desc':desc_list, 'url':url_list,
-                            'img': image_list, 'sources': source_list})
+    socketio.emit(
+        ARTICLE,
+        {
+            "title": title_list,
+            "desc": desc_list,
+            "url": url_list,
+            "img": image_list,
+            "sources": source_list,
+        },
+    )
     return True
+
 
 @app.route("/")
 def index():
