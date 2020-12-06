@@ -22,6 +22,7 @@ import location
 from location import get_location
 import sites
 from sites import get_sites
+from sites import search_user
 from sites import TestingSites
 app = flask.Flask(__name__)
 socketio = flask_socketio.SocketIO(app)
@@ -44,6 +45,7 @@ NEWUSER = "new user"
 FAQS = "faq lists"
 ARTICLE = "article list"
 SITE = 'site page'
+SEARCH = 'searching'
 import models
 def emit_all_users(channel):
     """emits all users"""
@@ -164,6 +166,35 @@ def on_connect():
     ip = request.environ['HTTP_X_FORWARDED_FOR']
     loc = get_location(ip)
     push_stat_data(loc.state)
+    return True
+@socketio.on("search location")    
+def searching(data):
+    a = data['area']
+    areaLoc = search_user(a)
+    allsites = get_sites(areaLoc[0],areaLoc[1])
+    title_list = []
+    address_list = []
+    lat_list = []
+    lng_list = []
+    phone_list = []
+    web_list = []
+    miles_list = []
+    counter = 0
+    for sites in allsites:
+        if counter != 3:
+            title_list.append(sites.title)
+            address_list.append(sites.entireAddress)
+            lat_list.append(sites.latitude)
+            lng_list.append(sites.longitude)
+            phone_list.append(sites.phone)
+            web_list.append(sites.web)
+            miles_list.append(sites.miles)
+            counter += 1
+        else:
+            break
+        
+    
+    socketio.emit(SITE, {'user_lat':areaLoc[0],'user_lng':areaLoc[1],'title':title_list,'address':address_list,'latitude':lat_list,'longitude':lng_list,'phone':phone_list,'web':web_list,'miles':miles_list,'key':api_k})
     return True
 def test_location():
     ip = request.environ['HTTP_X_FORWARDED_FOR']

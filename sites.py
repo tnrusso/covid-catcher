@@ -43,6 +43,18 @@ def get_sites(lat,lng):
         miles = str(miles)[0:4]
         sites.append(TestingSites(title,entireAddress,latitude,longitude,phone,web,miles))
     return sites
+def search_user(area):
+    url = ('https://geocode.search.hereapi.com/v1/geocode?apikey='+os.environ['SITE_API_KEY']+'&q='+area)
+    response=requests.get(url)
+    data = response.json()
+    lat_lng = []
+    for i in data['items']:
+        p = i['position']
+        latitude = p['lat']
+        longitude = p['lng']
+        lat_lng.append(latitude)
+        lat_lng.append(longitude)
+    return lat_lng
 class TestingSites:
     """Testing Site Information"""
     def __init__(self,title,entireAddress,latitude,longitude,phone,web,miles):
