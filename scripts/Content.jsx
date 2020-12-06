@@ -7,10 +7,9 @@ import { Articles } from './Articles';
 import { NotExist } from './NotExist';
 import { Stats } from './Stats';
 import { Quest } from './Quest';
-import { Socket } from './Socket';
 import { InfoMap } from './InfoMap';
-import { About } from './About'
-import { QuestStart } from './QuestStart'
+import { About } from './About';
+import { QuestStart } from './QuestStart';
 
 export function Content() {
   return (
