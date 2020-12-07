@@ -34,8 +34,14 @@ def get_sites(lat,lng):
             web = ''
         else:
             for i in x['contacts']:
-                phone = i['phone'][0]['value']
-                web = i['www'][0]['value']
+                if 'phone' not in i.keys():
+                    phone =''
+                else:
+                    phone = i['phone'][0]['value']
+                if 'www' not in i.keys():
+                    web = ''
+                else:
+                    web = i['www'][0]['value']
         if 'distance' not in x.keys():
             meter = 0
         meter = x['distance']

@@ -181,7 +181,7 @@ def search_loc(data):
 def on_connect():
     """Socket for when user connects"""
     articleList()
-    test_location()
+    #test_location()
     get_state_colors()
     ip = request.environ["HTTP_X_FORWARDED_FOR"]
     loc = get_location(ip)
@@ -233,7 +233,7 @@ def searching(data):
     )
     return True
 
-
+'''
 def test_location():
     """Get testing locations"""
     ip = request.environ["HTTP_X_FORWARDED_FOR"]
@@ -277,7 +277,7 @@ def test_location():
             "key": api_k,
         },
     )
-    return True
+    return True'''
 
 
 def articleList():
