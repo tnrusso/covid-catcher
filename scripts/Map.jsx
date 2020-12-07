@@ -15,15 +15,14 @@ export const Map = (props) => {
     const hMap = new H.Map(mapRef.current, defaultLayers.vector.normal.map, {
       center: { lat: props.userLat, lng: props.userLng },
       zoom: 14,
-      pixelRatio: window.devicePixelRatio || 1
     });
 
     const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(hMap));
 
     const ui = H.ui.UI.createDefault(hMap, defaultLayers);
-    var home = new H.map.Marker({ lat: props.userLat, lng: props.userLng });
+    const home = new H.map.Marker({ lat: props.userLat, lng: props.userLng });
       home.addEventListener('tap', (event) => {
-        var bubble = new H.ui.InfoBubble(
+        const  bubble = new H.ui.InfoBubble(
           { lat: props.userLat, lng: props.userLng },
           {
             content: '<b> You are Here! </b>',
@@ -31,35 +30,35 @@ export const Map = (props) => {
         );
         ui.addBubble(bubble);
       }, false);
-       var endMarker1 = new H.map.Marker({ lat: props.lat1, lng: props.lng1 });
+       const  endMarker1 = new H.map.Marker({ lat: props.lat1, lng: props.lng1 });
       endMarker1.addEventListener('tap', (event) => {
-        var bubble1 = new H.ui.InfoBubble(
+        const bubble = new H.ui.InfoBubble(
           { lat: props.lat1, lng: props.lng1 },
           {
             content: `<a href=${props.web1}>${props.titleplace1}</a>`,
           },
         );
-        ui.addBubble(bubble1);
+        ui.addBubble(bubble);
       }, false);
-      var endMarker2 = new H.map.Marker({ lat: props.lat2, lng: props.lng2 });
-      endMarker1.addEventListener('tap', (event) => {
-        var bubble2 = new H.ui.InfoBubble(
+      const endMarker2 = new H.map.Marker({ lat: props.lat2, lng: props.lng2 });
+      endMarker2.addEventListener('tap', (event) => {
+        const bubble = new H.ui.InfoBubble(
           { lat: props.lat2, lng: props.lng2 },
           {
             content: `<a href=${props.web2}>${props.titleplace2}</a>`,
           },
         );
-        ui.addBubble(bubble2);
+        ui.addBubble(bubble);
       }, false);
-      var endMarker3 = new H.map.Marker({ lat: props.lat3, lng: props.lng3 });
-      endMarker1.addEventListener('tap', (event) => {
-        var bubble3= new H.ui.InfoBubble(
+      const  endMarker3 = new H.map.Marker({ lat: props.lat3, lng: props.lng3 });
+      endMarker3.addEventListener('tap', (event) => {
+        const bubble= new H.ui.InfoBubble(
           { lat: props.lat3, lng: props.lng3 },
           {
             content: `<a href=${props.web3}>${props.titleplace3}</a>`,
           },
         );
-        ui.addBubble(bubble3);
+        ui.addBubble(bubble);
       }, false);
       hMap.addObjects([home,endMarker1, endMarker2, endMarker3]);
     // This will act as a cleanup to run once this hook runs again.
@@ -67,7 +66,7 @@ export const Map = (props) => {
     return () => {
       hMap.dispose();
     };
-  }, []); // This will run this hook every time this ref is updated
+  }, [mapRef]); // This will run this hook every time this ref is updated
   
   return <div  ref={mapRef}  />;
 };
