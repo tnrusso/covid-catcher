@@ -7,6 +7,7 @@ export const Map = (props) => {
   const mapRef = React.useRef(null);
   React.useLayoutEffect(() => {
     if (!mapRef.current) return;
+    console.log(ReactDOM.findDOMNode(mapRef.current))
     const H = window.H;
     const platform = new H.service.Platform({
         apikey: props.key1
@@ -65,8 +66,9 @@ export const Map = (props) => {
     // This includes when the component un-mounts
     return () => {
       hMap.dispose();
+      console.log('unmounting...');
     };
   }, [mapRef]); // This will run this hook every time this ref is updated
   
-  return <div  ref={mapRef}  />;
+  return <div id="real" ref={mapRef}  />;
 };
