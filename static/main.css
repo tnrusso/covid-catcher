@@ -271,6 +271,12 @@ body {
     padding:0;
 }
 
+#emailresultbtn{
+    position:fixed;
+    bottom:40;
+    right:120;
+}
+
 /**********/
 /*FAQ PAGE*/
 /**********/
@@ -522,6 +528,30 @@ body {
 
 .testing-desc {
     margin-bottom:25px;
+}
+
+.city-input {
+    border: none;
+    border-bottom: 2px solid #32936F;
+    outline:none;
+    background: #EBF5EE;
+    font-size:22px;
+    margin-right:10;
+}
+.city-submit {
+    transition-duration: 0.4s;
+    background: #32936F;
+    color: white; 
+    border-radius: 5px;
+    border: 2px solid #32936F;
+    cursor:pointer;
+    font-size:22px;
+    padding:7px;
+}
+
+.city-submit:hover {
+    background: #B2DEBF;
+    color: black; 
 }
 
 /******/
