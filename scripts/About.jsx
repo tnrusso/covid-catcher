@@ -111,7 +111,6 @@ export function About() {
             </li>
           </ul>
         </div>
-        <input type="button" className="about-visit-btn" onClick={sendHome} value="Visit Our Home Page" />
       </div>
     </div>
   );
