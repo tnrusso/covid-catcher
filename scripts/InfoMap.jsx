@@ -18,8 +18,7 @@ export function InfoMap() {
   const [ulongitude, setLngu] = React.useState('');
   const [key, setKey] = React.useState([]);
   const ind = 0;
-  var f = 0;
-  var counter = 0;
+  let firstRun = true;
   function getInfoMap() {
     React.useEffect(() => {
       Socket.on('site page', (data) => {
@@ -33,10 +32,36 @@ export function InfoMap() {
         setLatu(data.user_lat);
         setLngu(data.user_lng);
         setKey(data.key);
+        if(firstRun!=true) {renderMap(data);}
+        else {firstRun=false;}
       });
-      return () => Socket.off('site page');
+    
+        return () =>  Socket.off('site page');
     },[]);
   }
+  
+  function renderMap(data) {
+    ReactDOM.unmountComponentAtNode(document.getElementById('mapping'));
+    ReactDOM.render(<Map
+      align="right"
+      key1={data.key}
+      titleplace1={data.title[ind]}
+      lat1={data.latitude[ind]}
+      lng1={data.longitude[ind]}
+      web1={data.web[ind]}
+      titleplace2={data.title[ind + 1]}
+      lat2={data.latitude[ind + 1]}
+      lng2={data.longitude[ind + 1]}
+      web2={data.web[ind + 1]}
+      titleplace3={data.title[ind + 2]}
+      lat3={data.latitude[ind + 2]}
+      lng3={data.longitude[ind + 2]}
+      web3={data.web[ind + 2]}
+      userLat={data.user_lat}
+      userLng={data.user_lng}
+  />,document.getElementById('mapping'));
+  }
+  
   function handleSubmit(event) {
     
     const area = document.getElementById('newArea');
@@ -49,51 +74,6 @@ export function InfoMap() {
 
     area.value = '';
     event.preventDefault();
-   
-       ReactDOM.unmountComponentAtNode(document.getElementById('mapping'));
-        ReactDOM.render(<Map
-            align="right"
-            key1={key}
-            titleplace1={title[ind]}
-            lat1={latitudes[ind]}
-            lng1={longitudes[ind]}
-            web1={web[ind]}
-            titleplace2={title[ind + 1]}
-            lat2={latitudes[ind + 1]}
-            lng2={longitudes[ind + 1]}
-            web2={web[ind + 1]}
-            titleplace3={title[ind + 2]}
-            lat3={latitudes[ind + 2]}
-            lng3={longitudes[ind + 2]}
-            web3={web[ind + 2]}
-            userLat={ulatitude}
-            userLng={ulongitude}
-          />,document.getElementById('mapping'));
-    
-   
-      ReactDOM.render(<Map
-            align="right"
-            key1={key}
-            titleplace1={title[ind]}
-            lat1={latitudes[ind]}
-            lng1={longitudes[ind]}
-            web1={web[ind]}
-            titleplace2={title[ind + 1]}
-            lat2={latitudes[ind + 1]}
-            lng2={longitudes[ind + 1]}
-            web2={web[ind + 1]}
-            titleplace3={title[ind + 2]}
-            lat3={latitudes[ind + 2]}
-            lng3={longitudes[ind + 2]}
-            web3={web[ind + 2]}
-            userLat={ulatitude}
-            userLng={ulongitude}
-          />,document.getElementById('mapping'));
-    }
-  function handleClick()
-  {
-    
-    
   }
 
 
