@@ -6,7 +6,7 @@ export function GoogleButton() {
   const [message, setMessage] = useState('');
 
   function handleSuccess(response) {
-    setMessage('Thank you..');
+    setMessage('Thank you. Please start the questionnaire.');
     const name = response.profileObj.givenName;
     const { email } = response.profileObj;
     const pic = response.profileObj.imageUrl;
@@ -26,7 +26,7 @@ export function GoogleButton() {
     <div>
       <GoogleLogin
         clientId="477035920625-38n6lbf1m04mtpsfnvsiogmp4dlin790.apps.googleusercontent.com"
-        buttonText="Login"
+        buttonText="Login To Recieve Email With Results"
         onSuccess={handleSuccess}
         onFailure={handleFailure}
         cookiePolicy="single_host_origin"

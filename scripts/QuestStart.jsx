@@ -1,4 +1,5 @@
 import React from 'react';
+import { GoogleButton } from './GoogleButton';
 
 export function QuestStart() {
   return (
@@ -13,6 +14,7 @@ export function QuestStart() {
       <form action="/questionnaire">
         <input type="submit" className="start-quest-button" value="Start Questionnaire" />
       </form>
+      <GoogleButton />
     </div>
   );
 }

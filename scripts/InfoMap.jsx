@@ -137,11 +137,12 @@ export function InfoMap() {
     
     <div className="testing-wrapper">
       <h1 className="testing-h1">Nearest COVID-19 Testing Locations</h1>
-      <form onSubmit={handleSubmit} className="navbar-form d-flex justify-content-center w-100 navbar-right">
-        <input id="newArea" placeholder="Enter Address or City" className="form-control" />
-        <button className="btn btn-danger" >Search</button>
-      </form>
       <hr id="hr-8" />
+      <form onSubmit={handleSubmit} className="navbar-form d-flex justify-content-center w-100 navbar-right">
+        <input id="newArea" placeholder="Enter Address or City" className="city-input" />
+        <button className="city-submit" >Search</button>
+      </form>
+      
       {m}
     </div>
   );
