@@ -15,6 +15,9 @@ from covid import get_covid_stats_by_county
 from covid import CountyStats
 from covid import get_covid_stats_by_state
 from covid import StateStats
+from sites import search_user
+from sites import get_sites
+from sites import TestingSites
 
 class MockResponse:
     """Mock Response Class"""
@@ -154,6 +157,51 @@ def mock_county_covid_request_one(url):
     ]
     return MockResponse(data,200)
 
+def mock_get_sites(url):
+    """Mock Test For Sites.py"""
+    data=[{
+        "title":"Covid-19 Testing Sites",
+        "address":{
+            "houseNumber":'5',
+            "street":"abc street",
+            "city":"Newark",
+            "state":"New Jersey",
+            "postalCode":"07700"
+        },
+        "position":{
+            "lat":40000,
+            "lng":50000
+        },
+        "contacts":{
+            "phone":"1928392030",
+            "www":"www.dot.com"
+        },
+        "distance":10
+    },{
+        "title":"Covid-19 Testing Sites",
+        "address":{
+            "houseNumber":'',
+            "street":'',
+            "city":'',
+            "state":'',
+            "postalCode":''
+        },
+        "position":{
+            "lat":40000,
+            "lng":50000
+        },
+        "phone":'',
+        "web":'',
+        "distance":10
+    }
+    ]
+    return MockResponse(data,200)
+    
+def mock_searcharea(url):
+    """Mock Test For Sites.py Search"""
+    data=[50,60]
+    return MockResponse(data,200)
+
 class api_unit_tests(unittest.TestCase):
     """API Unit Test Class"""
     def setUp(self):
@@ -162,6 +210,31 @@ class api_unit_tests(unittest.TestCase):
     def tearDown(self):
         """tear down"""
         pass
+    def test_search(self):
+        """Testing Get Search"""
+        EXPECTED_RESULT = (50,60)
+        with mock.patch("requests.get", mock_searcharea):
+            searchh = search_user("Newark")
+            self.assertEqual(searchh[0], EXPECTED_RESULT[0])
+            self.assertEqual(searchh[1], EXPECTED_RESULT[1])
+    def test_sites(self):
+        """Testing Get Sites"""
+        EXPECTED_SITES= [
+            TestingSites("Covid-19 Testing Sites","5 abc street, Newark, New Jersey 07700",40000,50000,"1928392030","www.dot.com",10),
+            TestingSites("TCovid-19 Testing Sites",", ,  ",40000,50000,"1928392030","www.dot.com",10)
+        ]
+        with mock.patch("requests.get", mock_get_sites):
+            tsites = get_sites(10,20)
+            for i in range(0,len(tsites)):
+                tsite= tsites[i]
+                expected_site = EXPECTED_SITES[i]
+                self.assertEqual(tsite.title, expected_site.title)
+                self.assertEqual(tsite.entireAddress, expected_site.entireAddress)
+                self.assertEqual(tsite.latitude, expected_site.latitude)
+                self.assertEqual(tsite.longitude, expected_site.longitude)
+                self.assertEqual(tsite.phone, expected_site.phone)
+                self.assertEqual(tsite.web, expected_site.web)
+                self.assertEqual(tsite.miles, expected_site.miles)
     def test_get_all_questions_one(self):
         """Testing FAQ"""
         EXPECTED_QUESTION = FAQ("What is Covid?","Covid is covid.","<p>Covid is covid.</p>","cdc, who")
@@ -277,4 +350,5 @@ class api_unit_tests(unittest.TestCase):
     
 if __name__ == '__main__':
     unittest.main()
+    
     

@@ -10,7 +10,7 @@ import unittest
 from os.path import join, dirname
 sys.path.append(join(dirname(__file__), "../"))
 from app import push_new_user_to_db, userLog, emit_all_users, on_new_google_user, push_stat_data, articleList
-
+from app import searching
 EXPECTED = "expected"
 INPUT = "input"
 NAME = "name"
@@ -72,6 +72,11 @@ class MockedInfo:
         self.cases = 100
         self.deaths = 1
         self.recovered = 99
+class MockedSearch:
+    """ This class defines a mocked item returned from search api call """
+    def __init__(self):
+        self.lat = 50
+        self.lng = 60
 
 class MockedArticles:
     """ This class defines a mocked item returned from news api call """
@@ -154,7 +159,31 @@ class ArticleListTest(unittest.TestCase):
                 result = articleList()
                 expected = test[EXPECTED]
                 self.assertEqual(expected, result)
+class SearchTest(unittest.TestCase):
+    """ This class contains the tests and paramaters to test """
+    def setUp(self):
+        """ This function defines paramaters used for testing """
+        self.search_params = [
+            {
+                INPUT:"NJ",
+                EXPECTED: True
+            }
+        ]
 
+    def mocked_get(self):
+        """ mocked searching() """
+        search = MockedSearch()
+        return search
+
+    @mock.patch("app.socketio")
+    def test_search_list_success(self, MockedSocketio):
+        """ success test """
+        for test in self.search_params:
+            with mock.patch('sites.get_sites', self.mocked_get):
+                with mock.patch('sites.search_user', self.mocked_get):
+                    result = searching(test[INPUT])
+                    expected = test[EXPECTED]
+                    self.assertEqual(expected, result)
 class EmitTest(unittest.TestCase):
     """unit test for emit_all_users"""
     def setUp(self):
