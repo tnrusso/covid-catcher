@@ -199,7 +199,7 @@ def mock_get_sites(url):
     
 def mock_searcharea(url):
     """Mock Test For Sites.py Search"""
-    data=[50,60]
+    data={"items": [{"position": {"lat":50,"lng":60} }] }
     return MockResponse(data,200)
 
 class api_unit_tests(unittest.TestCase):
@@ -212,7 +212,7 @@ class api_unit_tests(unittest.TestCase):
         pass
     def test_search(self):
         """Testing Get Search"""
-        EXPECTED_RESULT = (50,60)
+        EXPECTED_RESULT = [50,60]
         with mock.patch("requests.get", mock_searcharea):
             searchh = search_user("Newark")
             self.assertEqual(searchh[0], EXPECTED_RESULT[0])
