@@ -123,25 +123,25 @@ def get_color(activePerMillion):
     """Colors for USA map"""
     activePer100k = activePerMillion / 10.0
     if activePer100k < 100:
-        return "#FFFFFF"
+        return "#aaf0d1"
     elif activePer100k < 500:
-        return "#F1E2E2"
+        return "#a3f7bf"
     elif activePer100k < 1000:
-        return "#E3C6C6"
+        return "#90EE90"
     elif activePer100k < 1500:
-        return "#D5AAAA"
+        return "#00ff7f"
     elif activePer100k < 2000:
-        return "#C78D8D"
+        return "#77dd77"
     elif activePer100k < 2500:
-        return "#B97171"
+        return "#32cd32"
     elif activePer100k < 3000:
-        return "#AB5555"
+        return "#4cbb17"
     elif activePer100k < 3500:
-        return "#9D3838"
+        return "#228b22"
     elif activePer100k < 4000:
-        return "#8F1C1C"
+        return "#355e3b "
     else:
-        return "#820000"
+        return "#006400"
 
 
 class CountyStats:

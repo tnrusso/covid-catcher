@@ -574,46 +574,48 @@ path:hover {
   margin-right: auto;
   width: 50%;
 }
-
+.active-cases {
+   font-size: 40pt; 
+}
 .map-legend {;
     border: 5px outset gray;
     border-radius: 5px;
     margin-bottom: 50;
     margin-left: 100px;
-    padding:20;
+    padding:0 5 0;
 }
 .map-legend-color {
-    font-size: 24pt;
+    font-size: 20pt;
 }
 .color-4000 {
-    color: #820000;
+    color: #006400;
 }
 .color-3500 {
-    color: #8F1C1C;
+    color: #355e3b;
 }
 .color-3000 {
-    color: #9D3838;
+    color: #228b22;
 }
 .color-2500 {
-    color: #AB5555;
+    color: #4cbb17;
 }
 .color-2000 {
-    color: #B97171;
+    color: #32cd32;
 }
 .color-1500 {
-    color: #C78D8D;
+    color: #77dd77;
 }
 .color-1000 {
-    color: #D5AAAA;
+    color: #00ff7f;
 }
 .color-500 {
-    color: #E3C6C6;
+    color: #90EE90;
 }
 .color-100 {
-    color: #F1E2E2;
+    color: #a3f7bf;
 }
 .color-0 {
-    color: #FFFFFF;
+    color: #aaf0d1;
 }
 
 .active-cases {
