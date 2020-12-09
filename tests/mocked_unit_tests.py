@@ -30,7 +30,7 @@ class MockedItem:
 class MockedRequest:
     """This class mocks request.sid"""
     def __init__(self):
-        self.sid = 0
+        self.sid = ""
 class MockedDB:
     """ This class defines a mocked db object"""
     def __init__(self, session=""):
@@ -76,6 +76,12 @@ class MockedInfo:
         self.cases = 100
         self.deaths = 1
         self.recovered = 99
+        self.todaysCases = 1
+        self.todayDeaths = 1
+        self.county = ""
+        self.confirmed = 1
+        self.updatedAt = ""
+        
 class MockedSite:
     """ This class defines a mocked item returned from search api call """
     def __init__(self):
@@ -142,9 +148,10 @@ class PushStatDataTest(unittest.TestCase):
         """ success test """
         for test in self.push_stat_params:
             with mock.patch('covid.get_covid_stats_by_state', self.mocked_get_covid_stats):
-                result = push_stat_data(test[INPUT])
-                expected = test[EXPECTED]
-                self.assertEqual(expected, result)
+                with mock.patch('covid.get_covid_stats_by_county', self.mocked_get_covid_stats):
+                    result = push_stat_data(test[INPUT])
+                    expected = test[EXPECTED]
+                    self.assertEqual(expected, result)
 
 class ArticleListTest(unittest.TestCase):
     """ This class contains the tests and paramaters to test """
