@@ -15,6 +15,7 @@ from covid import get_covid_stats_by_county
 from covid import CountyStats
 from covid import get_covid_stats_by_state
 from covid import StateStats
+from covid import get_covid_stats_for_all_states
 from sites import search_user
 from sites import get_sites
 from sites import TestingSites
@@ -131,6 +132,36 @@ def mock_state_covid_request_one(url):
         "deathsPerOneMillion":456,
         "testsPerOneMillion":6436
     }
+    return MockResponse(data,200)
+
+def mock_all_state_covid_request_one(url):
+    """Mock Test For all Covid.py States"""
+    data=[
+        {"state":"New Jersey",
+        "cases":2000,
+        "todayCases":1000,
+        "deaths":566,
+        "todayDeaths":34563,
+        "recovered":3455,
+        "active":677,
+        "tests":45,
+        "casesPerOneMillion":100,
+        "deathsPerOneMillion":456,
+        "testsPerOneMillion":6436,
+        "population":1000000},
+        {"state":"New York",
+        "cases":2000,
+        "todayCases":1000,
+        "deaths":566,
+        "todayDeaths":34563,
+        "recovered":3455,
+        "active":677,
+        "tests":45,
+        "casesPerOneMillion":100,
+        "deathsPerOneMillion":456,
+        "testsPerOneMillion":6436,
+        "population":0}
+    ]
     return MockResponse(data,200)
 
 def mock_county_covid_request_one(url):
@@ -349,6 +380,27 @@ class api_unit_tests(unittest.TestCase):
             self.assertEqual(stats.confirmed,EXPECTED_RESULT.confirmed)
             self.assertEqual(stats.deaths,EXPECTED_RESULT.deaths)
             self.assertEqual(stats.recovered,EXPECTED_RESULT.recovered)
+    
+    def test_get_covid_stats_for_all_states(self):
+        EXPECTED_RESULT=[
+            StateStats("New Jersey",2000,1000,677,100,566,34563,456,3455,45,6436,1000000),
+            StateStats("New York",2000,1000,677,100,566,34563,456,3455,45,6436,0)
+        ]
+        
+        with mock.patch("requests.get", mock_all_state_covid_request_one):
+            stats = get_covid_stats_for_all_states()
+            for i in range(0,len(stats)):
+                self.assertEqual(stats[i].state,EXPECTED_RESULT[i].state)
+                self.assertEqual(stats[i].cases,EXPECTED_RESULT[i].cases)
+                self.assertEqual(stats[i].todaysCases,EXPECTED_RESULT[i].todaysCases)
+                self.assertEqual(stats[i].activeCases,EXPECTED_RESULT[i].activeCases)
+                self.assertEqual(stats[i].casesPerMillion,EXPECTED_RESULT[i].casesPerMillion)
+                self.assertEqual(stats[i].deaths,EXPECTED_RESULT[i].deaths)
+                self.assertEqual(stats[i].todayDeaths,EXPECTED_RESULT[i].todayDeaths)
+                self.assertEqual(stats[i].deathsPerMillion,EXPECTED_RESULT[i].deathsPerMillion)
+                self.assertEqual(stats[i].recovered,EXPECTED_RESULT[i].recovered)
+                self.assertEqual(stats[i].tests,EXPECTED_RESULT[i].tests)
+                self.assertEqual(stats[i].testsPerPerMillion,EXPECTED_RESULT[i].testsPerPerMillion)
     
 if __name__ == '__main__':
     unittest.main()
