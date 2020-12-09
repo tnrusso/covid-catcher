@@ -112,14 +112,11 @@ def on_new_google_user(data):
 
 @socketio.on("email results")
 def on_send_results(data):
-    
     #This name would be the user but mailgun will not allow emails to be sent to
-    #    unverified users without paying. 
+    #    unverified users without paying.
     name="Madison"
-    
     msg = "Hello "+name+"! After taking your questionnaire us here at Covid Catcher recommended the following...\n"
     msg +=  data['results']
-    
     print(msg)
     print(requests.post(
 	    "https://api.mailgun.net/v3/sandbox65fda9f953cb42baacd1bdd34356b8c4.mailgun.org/messages",
@@ -128,7 +125,7 @@ def on_send_results(data):
 		    #This only sends to madison becuase mailgun for free can only send to verified emails
 		    #To send to the specific users email simply pull the email from the database at this socket
 		    #   number and send it there
-			"to": ["miatkem@gmail.com"], 
+			"to": ["miatkem@gmail.com"],
 			"subject": "Covid Catcher Questionnaire Results",
 			"text":msg}).text)
 

@@ -1,13 +1,14 @@
-import requests
+# pylint: disable=C0301, C0103
+"""API Calls for Testing Site Location"""
 import os
-import flask
-from flask import request
 from os.path import join, dirname
+import requests
 from dotenv import load_dotenv
 dotenv_path = join(dirname(__file__), "api-keys.env")
 load_dotenv(dotenv_path)
 
 def get_sites(lat,lng):
+    """Gets Nearest Sites using Lat and Lng"""
     url = ('https://discover.search.hereapi.com/v1/discover?apikey='+os.environ['SITE_API_KEY']+'&q=COVID&at='+str(lat)+','+str(lng)+'&limit=3')
     response=requests.get(url)
     data = response.json()
@@ -50,6 +51,7 @@ def get_sites(lat,lng):
         sites.append(TestingSites(title,entireAddress,latitude,longitude,phone,web,miles))
     return sites
 def search_user(area):
+    """Gets Lat and Lng of the Address"""
     url = ('https://geocode.search.hereapi.com/v1/geocode?apikey='+os.environ['SITE_API_KEY']+'&q='+area)
     response=requests.get(url)
     data = response.json()
