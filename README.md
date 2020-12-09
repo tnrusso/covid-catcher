@@ -38,8 +38,18 @@ npm install socket.io-client --save
 ```
 
 ### Sign up for the required API keys
-TODO
-
+- To use the Map API and Search Testing Site location, visit https://developer.here.com/ and sign up.
+- After you signed up, logged in, click Freemium and you will see Javascript and REST.  Click Create API Keys for both and save
+- Create api-keys.env in your workspace by
+```
+touch api-keys.env
+c9 api-keys.env
+```
+- then inside this file, add the following
+```
+export SITE_API_KEY='YOUR REST API KEY'
+export MAP_API_KEY='-YOUR JAVASCRIPT API KEY'
+```
 ### Get PSQL to work with Python
 - To update yum (enter 'yes' to all promps) `sudo yum update`
 
