@@ -37,7 +37,7 @@ export function About() {
             <p className="small-text">A senior Computer Science Major well versed in software development and web design.</p>
           </div>
           <div className="about-team-member">
-            <img src="https://avatars2.githubusercontent.com/u/66849046?s=460&v=4" alt="carlos" />
+            <img src="https://avatars3.githubusercontent.com/u/66849046?s=400&u=1bb696f86452c7a484ebc6d035b9b5a1980cacfe&v=4" alt="carlos" />
             <p className="medium-text">Carlos Osegueda</p>
             <p className="small-text">A senior Computer Science Major well versed in software development and web design.</p>
           </div>
