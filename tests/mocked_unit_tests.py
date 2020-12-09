@@ -27,6 +27,10 @@ class MockedItem:
         self.question = "question"
         self.answer = "answer"
 '''
+class MockedRequest:
+    """This class mocks request.sid"""
+    def __init__(self):
+        self.sid = 0
 class MockedDB:
     """ This class defines a mocked db object"""
     def __init__(self, session=""):
@@ -62,7 +66,7 @@ class MockedBDUser1:
 
 class MockedSocketio:
     """ This class defines a mocked socketio object """
-    def emit(self, arg_x, arg_y):
+    def emit(self, arg_x, arg_y, arg_z=0):
         """This mocks the emit method"""
         return True
 
@@ -72,11 +76,16 @@ class MockedInfo:
         self.cases = 100
         self.deaths = 1
         self.recovered = 99
-class MockedSearch:
+class MockedSite:
     """ This class defines a mocked item returned from search api call """
     def __init__(self):
-        self.lat = 50
-        self.lng = 60
+        self.title = ""
+        self.entireAddress = ""
+        self.latitude = 0
+        self.longitude =0
+        self.phone = 0
+        self.web = 0
+        self.miles = 0
 
 class MockedArticles:
     """ This class defines a mocked item returned from news api call """
@@ -127,14 +136,15 @@ class PushStatDataTest(unittest.TestCase):
         information = MockedInfo()
         return information
     
-    # @mock.patch("app.socketio")
-    # def test_push_stat_success(self, MockedSocketio):
-    #     """ success test """
-    #     for test in self.push_stat_params:
-    #         with mock.patch('covid.get_covid_stats_by_state', self.mocked_get_covid_stats):
-    #             result = push_stat_data(test[INPUT])
-    #             expected = test[EXPECTED]
-    #             self.assertEqual(expected, result)
+    @mock.patch("app.socketio")
+    @mock.patch("app.request")
+    def test_push_stat_success(self, MockedSocketio, MockedRequest):
+        """ success test """
+        for test in self.push_stat_params:
+            with mock.patch('covid.get_covid_stats_by_state', self.mocked_get_covid_stats):
+                result = push_stat_data(test[INPUT])
+                expected = test[EXPECTED]
+                self.assertEqual(expected, result)
 
 class ArticleListTest(unittest.TestCase):
     """ This class contains the tests and paramaters to test """
@@ -165,25 +175,34 @@ class SearchTest(unittest.TestCase):
         """ This function defines paramaters used for testing """
         self.search_params = [
             {
-                INPUT:"NJ",
+                INPUT:{"area":"NJ"},
                 EXPECTED: True
             }
         ]
 
-    def mocked_get(self):
+    def mocked_get_sites(self):
+        sites = []
+        sites.append(MockedSite)
+        return sites
+
+    def mocked_search_user(self, a=0):
         """ mocked searching() """
-        search = MockedSearch()
+        search = []
+        search.append(60)
+        search.append(50)
         return search
 
     @mock.patch("app.socketio")
-    def test_search_list_success(self, MockedSocketio):
+    @mock.patch("app.request")
+    def test_search_list_success(self, MockedSocketio, MockedRequest):
         """ success test """
         for test in self.search_params:
-            with mock.patch('sites.get_sites', self.mocked_get):
-                with mock.patch('sites.search_user', self.mocked_get):
+            with mock.patch('sites.search_user', self.mocked_search_user):
+                with mock.patch('sites.get_sites', self.mocked_get_sites):
                     result = searching(test[INPUT])
                     expected = test[EXPECTED]
                     self.assertEqual(expected, result)
+                
 class EmitTest(unittest.TestCase):
     """unit test for emit_all_users"""
     def setUp(self):
