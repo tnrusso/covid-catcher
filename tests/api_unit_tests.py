@@ -159,7 +159,9 @@ def mock_county_covid_request_one(url):
 
 def mock_get_sites(url):
     """Mock Test For Sites.py"""
-    data=[{
+    data={
+        "items":[{
+            
         "title":"Covid-19 Testing Sites",
         "address":{
             "houseNumber":'5',
@@ -172,11 +174,11 @@ def mock_get_sites(url):
             "lat":40000,
             "lng":50000
         },
-        "contacts":{
-            "phone":"1928392030",
-            "www":"www.dot.com"
-        },
-        "distance":10
+        "contacts":[{
+            "phone":[{"value":"1928392030"}],
+            "www":[{"value":"www.dot.com"}]
+        }],
+        "distance":1000
     },{
         "title":"Covid-19 Testing Sites",
         "address":{
@@ -192,9 +194,9 @@ def mock_get_sites(url):
         },
         "phone":'',
         "web":'',
-        "distance":10
+        "distance":2000
+    }]
     }
-    ]
     return MockResponse(data,200)
     
 def mock_searcharea(url):
@@ -220,8 +222,8 @@ class api_unit_tests(unittest.TestCase):
     def test_sites(self):
         """Testing Get Sites"""
         EXPECTED_SITES= [
-            TestingSites("Covid-19 Testing Sites","5 abc street, Newark, New Jersey 07700",40000,50000,"1928392030","www.dot.com",10),
-            TestingSites("TCovid-19 Testing Sites",", ,  ",40000,50000,"1928392030","www.dot.com",10)
+            TestingSites("Covid-19 Testing Sites","5 abc street, Newark, New Jersey 07700",40000,50000,"1928392030","www.dot.com","0.62"),
+            TestingSites("Covid-19 Testing Sites"," , ,  ",40000,50000,"","","1.24")
         ]
         with mock.patch("requests.get", mock_get_sites):
             tsites = get_sites(10,20)
