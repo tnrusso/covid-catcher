@@ -136,9 +136,10 @@ class PushStatDataTest(unittest.TestCase):
                 EXPECTED: "stats are pushed"
             }
         ]
-
-    def mocked_get_covid_stats(self):
+    @mock.patch("app.flask")
+    def mocked_get_covid_stats(self, mock_sid):
         """ mocked get_covid stats() """
+        mock_sid.request.sid = ""
         information = MockedInfo()
         return information
     

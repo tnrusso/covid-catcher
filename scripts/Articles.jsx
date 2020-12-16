@@ -19,7 +19,7 @@ export function Articles() {
       });
     });
   }
-
+  
   getArticles();
   return (
     <div className="article-page">
@@ -32,8 +32,7 @@ export function Articles() {
               <div className="article-image-container">
                 <img className="article-image" src={image[index]} alt="article" />
                 <a className="article-link" target="_blank" rel="noreferrer" href={url[index]}>
-                  Read Article at
-                  {source[index]}
+                  Read Article at {source[index]}
                 </a>
               </div>
               <div className="article-text">
@@ -41,8 +40,7 @@ export function Articles() {
                 <p className="article-desc">{desc[index]}</p>
                 <p className="article-source">
                   <i>
-                    Supplied by
-                    {source[index]}
+                    Supplied by {source[index]}
                   </i>
                 </p>
               </div>
